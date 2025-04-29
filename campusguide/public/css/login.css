@@ -1,0 +1,157 @@
+@import url('https //fonts.googleapis.com/css family=OpenSans');
+*{
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    font-family: 'Open Sans', sans-serif;
+}
+header{
+    /* position: fixed; */
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* padding: 10px; */
+    z-index: 99;
+}
+.logo img{
+    width: 100%;
+    height: 100px;
+}
+.container{
+    display: grid;
+    grid-template: 100px repeat(3, auto) / 1fr 600px 1fr;/
+} 
+.container h2{
+    grid-area: 1/1/2/-1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #E5B300;
+    font-size: 30px;
+    text-transform: uppercase;
+}
+.bloc-1,
+.img-grid-1{
+    grid-area: 2 /2 /3 /3 ;
+}
+.bloc-left{
+    left: -300px;
+}
+
+.bloc-txt-left{
+    width: 50%;
+}
+.bloc-txt-left h2{
+    font-size: 35px;
+     margin: 30px 15px;
+    color: #f1f1f1;
+    text-align: center; 
+}
+.bloc {
+    color: #36384E;
+    position: relative;
+    border-radius: 10px;
+}
+.input-box{
+    position: relative;
+    width: 100%;
+    height: 50px;
+    margin: 20px 0;
+}
+.input-box label{
+    position: absolute;
+    top: 50%;
+    left: 20px;
+    color: #36384E;
+    transform: translateY(-50%);
+    font-size: 1em;
+    font-weight: 600;
+    font-family: 'Open Sans';
+    pointer-events: none;
+    transition: .5s;
+}
+.input-box input:focus~label,
+.input-box input:valid~label{
+    top: -5px;
+}
+.input-box input{
+    width: 200%;
+    height: 100%;
+    border: 1px solid ;
+    outline: none;
+    border: none;
+    padding-left: 20px;
+    color: #000000;
+    border: none;
+    border-radius: 7px;
+    background-color: #f8f1d4;
+    font-weight: 600;
+
+}
+.remember-forgot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 200%; /* même largeur que les champs */
+    font-size: .9em;
+    color: #36384E;
+    margin: -10px 0 20px;
+}
+.remember-forgot label {
+    margin: 0;
+}
+.remember-forgot a {
+    text-align: right;
+    white-space: nowrap;
+    text-decoration: none;
+    color: #E5B300;
+}
+.remember-forgot a:hover {
+    text-decoration: underline;
+    color: #36384E;
+}
+.btn{
+    width: 50%;
+    height: 45px;
+    background: #E5B300;;
+    border: none;
+    outline: none;
+    border-radius: 6px;
+    cursor: pointer;
+    color: #fff;
+    font-size: 1em;
+    font-weight: 500;
+    margin: 5% 70%;
+}
+.btn:hover{
+    color: white;
+    background-color: #36384E;
+}
+.login-register{
+    font-size: .9em;
+    color: #fff;
+    text-align: center;
+    font-weight: 500;
+    margin: 25px 0 10px ;
+}
+.login-register p a{
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+}
+.login-register p a:hover{
+    text-decoration: underline;
+}
+.image{
+    position: absolute;
+    display: flex;
+    width: 100%;
+    border-collapse: collapse;
+    margin-left: 55%;
+    padding: 20px;
+    max-width: 550px;
+    height: 550px;
+    /* transition: 5s ease-out;  */
+}
