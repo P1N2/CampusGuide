@@ -13,7 +13,7 @@
     </header>
     <section class="container">
         <div class="bloc bloc-left bloc-1">
-            <h2>Laissez CampusGuide <br>vous guidez vers votre Avenir</h2>
+            <h2>Construisez votre Avenir<br>avec CampusGuide</h2>
             <div class= "bloc-txt-left">
                 <form action="{{ route('register.submit') }}" method="post">
                         @csrf

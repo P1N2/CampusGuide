@@ -37,6 +37,6 @@ class RegisterController extends Controller
         auth()->login($user);
 
         // Rediriger vers la page d'accueil ou tableau de bord
-        return redirect('/quiz');
+        return redirect('/home');
     }
 }

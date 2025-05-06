@@ -15,7 +15,7 @@
         <div class="bloc bloc-left bloc-1">
             <h2>Laissez CampusGuide <br>vous guidez vers votre Avenir</h2>
             <div class="bloc-txt-left">
-                <form action="#" method="post">
+                <form action="{{ route('login.submit') }}" method="post">
                     @csrf
                     <div class="input-box">
                         <input type="email" name="email" required>
@@ -25,6 +25,16 @@
                         <input type="password" name="password" required>
                         <label>Password</label>
                     </div>
+                    {{-- Affichage des erreurs (facultatif mais conseillé) --}}
+                                @if ($errors->any())
+                                    <div class="error-messages" style="color:red;">
+                                        <ul>
+                                            @foreach ($errors->all() as $error)
+                                                <li>{{ $error }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                @endif
                     <div class="remember-forgot">
                         <label>Don't have Account? <a href="/register">Register</a></label>
                         <a href="#" class="Forgot">Forgot your Password?</a>

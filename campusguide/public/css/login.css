@@ -162,7 +162,7 @@ header{
     padding: 20px;
     max-width: 550px;
     height: 550px;
-    animation: animateImage 20s ease-in-out infinite;
+    animation: animateImage 10s ease-in-out infinite;
     z-index: 1;
 }
 @keyframes animateImage {
