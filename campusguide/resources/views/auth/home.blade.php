@@ -11,27 +11,51 @@
 </head>
 <body>
 
-  <!-- Navigation -->
-  <header class="navbar">
+ <!-- Navigation -->
+<header class="navbar">
   <h1 class="logo"><img src="{{ asset('assets/logo.png') }}" alt="CampusGuideLogo"></h1> 
-    <nav>
-      <ul class="nav-links">
+  <nav>
+    <ul class="nav-links">
       <li><a href="/home">Accueil</a></li>
         <li><a href="#University">Universités</a></li>
         <li><a href="#field">Filières</a></li>
-        <li><a href="/profile">Mon Espace</a></li>
-      </ul>
-    </nav>
-    <form action="" class="search-form" method="GET">
-      <input type="text" name="query" placeholder="Rechercher..." required>
-      <button type="submit">Rechercher</button>
-    </form>
-    <div class="profile">
-      <img src="{{ asset('assets/login.jpg') }}" alt="Profil">
-      <span class="profile-text">Penouel<br><small>Baccalaureat A</small></span>
+    </ul>
+  </nav>
+  
+  <div class="navbar-right">
+  <form action="" class="search-form" method="GET">
+    <input type="text" name="query" placeholder="Rechercher..." required>
+    <button type="submit">Rechercher</button>
+  </form>
+
+  @auth
+    <div class="profile" id="profile">
+      <img src="{{ Auth::user()->profile_image ? asset('storage/' . Auth::user()->profile_image) : asset('assets/login.jpg') }}" alt="Profil">
+      <span class="profile-text">
+        {{ Auth::user()->name }}<br>
+        <small>{{ Auth::user()->field ?? 'Étudiant' }}</small>
+      </span>
     </div>
-    
-  </header>
+
+    <div class="dropdown-menu" id="dropdownMenu">
+      <a href="/profile">Mon espace personnel</a>
+      <form method="POST" action="{{ route('logout') }}">
+        @csrf
+        <button type="submit">Se déconnecter</button>
+      </form>
+    </div>
+  @endauth
+
+  @guest
+    <div class="auth-buttons">
+      <a href="{{ route('login') }}" class="btn-start">Se connecter</a>
+      <a href="{{ route('register') }}" class="btn-start">S’inscrire</a>
+    </div>
+  @endguest
+</div>
+
+</header>
+
 
   <!-- Hero Section -->
   <section class="hero">
@@ -74,42 +98,75 @@
   </div>
 </section>
 
-<!-- Classement universités -->
 <section class="ranking-section" id="University">
   <h2>Classements des meilleurs universités du pays</h2>
   <div class="underline"></div>
-  <div class="universities">
-    <div class="university-card">
-      <a href="/University"><img src="{{ asset('assets/uni1.jpg') }}" alt="Université X"></a>
-      <h4>Université X</h4>
-      <a href="/University">Voir université &rarr;</a>
+
+  @auth
+    <div class="universities">
+      @foreach ($universities as $university)
+        <div class="university-card">
+          <a href="{{ route('university.show', $university->id) }}">
+          <img src="{{ asset($university->media_url) }}" alt="{{ $university->name }}">
+          </a>
+          <h4>{{ $university->name }}</h4>
+          <a href="{{ route('university.show', $university->id) }}">
+            Voir université &rarr;
+          </a>
+        </div>
+      @endforeach
     </div>
-    <div class="university-card">
-      <img src="{{ asset('assets/uni2.jpg') }}" alt="Université Y">
-      <h4>Université Y</h4>
-      <a href="#">Voir université &rarr;</a>
+
+    <div id="extra-universities" class="extra-universities">
+      <div class="university-card">
+        <img src="{{ asset('assets/uni2.jpg') }}" alt="Université A">
+        <h4>Université A</h4>
+        <a href="/University">Voir université &rarr;</a>
+      </div>
+      <div class="university-card">
+        <img src="{{ asset('assets/uni3.jpg') }}" alt="Université B">
+        <h4>Université B</h4>
+        <a href="/University">Voir université &rarr;</a>
+      </div>
     </div>
-    <div class="university-card">
-      <img src="{{ asset('assets/uni3.jpg') }}" alt="Université Z">
-      <h4>Université Z</h4>
-      <a href="#">Voir université &rarr;</a>
+    <a href="#extra-universities" id="view-all-universities" class="btn-view-all">Voir Tous</a>
+  @endauth
+
+  @guest
+    <p class="text-center">Connectez-vous pour découvrir le classement des meilleures universités du pays.</p>
+    <div class="universities">
+      <div class="university-card">
+        <img src="{{ asset('assets/uni2.jpg') }}" alt="Université A">
+        <h4>Université A</h4>
+        <a href="{{ route('register') }}">Voir université &rarr;</a>
+      </div>
+      <div class="university-card">
+        <img src="{{ asset('assets/uni3.jpg') }}" alt="Université B">
+        <h4>Université B</h4>
+        <a href="{{ route('register') }}">Voir université &rarr;</a>
+      </div>
     </div>
-  </div>
+    <!-- <a href="{{ route('register') }}" class="btn-view-all">Voir Tous</a> -->
+  @endguest
+</section>
+
+
+
+
   <div id="extra-universities" class="extra-universities">
     <!-- D'autres universités cachées -->
     <div class="university-card">
       <img src="{{ asset('assets/uni2.jpg') }}" alt="Université A">
       <h4>Université A</h4>
-      <a href="#">Voir université &rarr;</a>
+      <a href="{{ Auth::check() ? '/University' : route('register') }}">Voir université &rarr;</a>
     </div>
     <div class="university-card">
       <img src="{{ asset('assets/uni3.jpg') }}" alt="Université B">
       <h4>Université B</h4>
-      <a href="#">Voir université &rarr;</a>
+      <a href="{{ Auth::check() ? '/University' : route('register') }}">Voir université &rarr;</a>
     </div>
-    <!-- Ajouter autant d'universités que nécessaire -->
   </div>
-  <a href="javascript:void(0)" id="view-all-universities" class="btn-view-all">Voir Tous</a>
+  <a href="{{ Auth::check() ? '#extra-universities' : route('register') }}" id="view-all-universities" class="btn-view-all">Voir Tous</a>
 </section>
 
 <!-- Filières populaires -->
@@ -120,17 +177,17 @@
     <div class="field-card">
       <img src="{{ asset('assets/field1.jpeg') }}" alt="UX Design">
       <h4>User experience design</h4>
-      <a href="#">SEE COURSE GUIDE &rarr;</a>
+      <a href="{{ Auth::check() ? '#' : route('register') }}">SEE COURSE GUIDE &rarr;</a>
     </div>
     <div class="field-card">
       <img src="{{ asset('assets/field2.jpeg') }}" alt="Computer science">
       <h4>Computer science</h4>
-      <a href="#">SEE COURSE GUIDE &rarr;</a>
+      <a href="{{ Auth::check() ? '#' : route('register') }}">SEE COURSE GUIDE &rarr;</a>
     </div>
     <div class="field-card">
       <img src="{{ asset('assets/field3.jpeg') }}" alt="Business management">
       <h4>Business management</h4>
-      <a href="#">SEE COURSE GUIDE &rarr;</a>
+      <a href="{{ Auth::check() ? '#' : route('register') }}">SEE COURSE GUIDE &rarr;</a>
     </div>
   </div>
   <div id="extra-fields" class="extra-fields">
@@ -138,16 +195,17 @@
     <div class="field-card">
       <img src="{{ asset('assets/field2.jpeg') }}" alt="Data Science">
       <h4>Data Science</h4>
-      <a href="#">SEE COURSE GUIDE &rarr;</a>
+      <a href="{{ Auth::check() ? '#' : route('register') }}">SEE COURSE GUIDE &rarr;</a>
     </div>
     <div class="field-card">
       <img src="{{ asset('assets/field3.jpeg') }}" alt="Engineering">
       <h4>Engineering</h4>
-      <a href="#">SEE COURSE GUIDE &rarr;</a>
+      <a href="{{ Auth::check() ? '#' : route('register') }}">SEE COURSE GUIDE &rarr;</a>
     </div>
   </div>
-  <a href="javascript:void(0)" id="view-all-fields" class="btn-view-all">Voir Tous</a>
+  <a href="{{ Auth::check() ? '#extra-fields' : route('register') }}" id="view-all-fields" class="btn-view-all">Voir Tous</a>
 </section>
+
 <!-- Footer -->
 <footer class="main-footer">
   <div class="footer-content">
@@ -180,6 +238,9 @@
   <p class="footer-bottom">© 2025 CampusGuide. Tous droits réservés.</p>
 </footer>
 <script src="{{ asset('js/home.js') }}" defer></script>
+<script>
+  window.isAuthenticated = {{ Auth::check() ? 'true' : 'false' }};
+</script>
 
 </body>
 </html>

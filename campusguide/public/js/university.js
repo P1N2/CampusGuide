@@ -18,3 +18,16 @@ span.onclick = () => modal.style.display = "none";
 window.onclick = (e) => {
   if (e.target == modal) modal.style.display = "none";
 };
+const profile = document.getElementById('profile');
+  const dropdown = document.getElementById('dropdownMenu');
+
+  profile.addEventListener('click', () => {
+    dropdown.style.display = dropdown.style.display === 'flex' ? 'none' : 'flex';
+  });
+
+  // Ferme le menu si on clique ailleurs
+  document.addEventListener('click', function(event) {
+    if (!profile.contains(event.target) && !dropdown.contains(event.target)) {
+      dropdown.style.display = 'none';
+    }
+  });
