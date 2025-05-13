@@ -30,28 +30,31 @@ class AdminController extends Controller
 
     return view('admin.dashboard', compact('universitiesCount', 'fieldsCount', 'usersCount', 'fields'));
 }
-
-public function createUniversity()
+public function storeField(Request $request)
 {
-    $fields = Field::all(); // Pour afficher les filières disponibles
-    return view('admin.create_university', compact('fields'));
+    $validated = $request->validate([
+        'name' => 'required|string|max:100',
+        'description' => 'nullable|string',
+        'image' => 'nullable|string',
+    ]);
+
+    Field::create($validated);
+
+    return redirect()->route('admin.dashboard')->with('success', 'Filière ajoutée avec succès !');
 }
 
 public function storeUniversity(Request $request)
 {
     $validated = $request->validate([
         'name' => 'required|string',
-        'description' => 'nullable|string',
-        'history' => 'nullable|string',
-        'location' => 'nullable|string',
-        'tuition_fee' => 'nullable|string',
-        'note' => 'nullable|string',
-        'media_url' => 'nullable|url',
-        'application_link' => 'nullable|url',
-        'pdf_url' => 'nullable|file|mimes:pdf',
-        'fields' => 'array',
-        'images.*' => 'image|mimes:jpeg,png,jpg|max:2048',
-        'image_type' => 'required|in:banner,gallery',
+    'description' => 'nullable|string',
+    'history' => 'nullable|string',
+    'location' => 'nullable|string',
+    'tuition_fee' => 'nullable|numeric|between:0,99999999.99',   // CHANGÉ ici
+    'note' => 'nullable|numeric',         // CHANGÉ ici
+    'media_url' => 'nullable|string',
+    'application_link' => 'nullable|url',
+    'pdf_url' => 'nullable|file|mimes:pdf',
     ]);
 
     if ($request->hasFile('pdf_url')) {
@@ -74,7 +77,7 @@ public function storeUniversity(Request $request)
         $university->fields()->sync($request->fields);
     }
 
-    return redirect()->route('admin.dashboard')->with('success', 'Université ajoutée avec succès !');
+    return redirect()->route('admin.dashboard')->with('good', 'Université ajoutée avec succès !');
 }
 
 }

@@ -21,13 +21,26 @@ window.onclick = (e) => {
 const profile = document.getElementById('profile');
   const dropdown = document.getElementById('dropdownMenu');
 
-  profile.addEventListener('click', (e) => {
-    e.stopPropagation(); // Empêche de déclencher le document click
-    dropdown.classList.toggle('show');
+  profile.addEventListener('click', () => {
+    dropdown.style.display = dropdown.style.display === 'flex' ? 'none' : 'flex';
   });
 
+  // Ferme le menu si on clique ailleurs
   document.addEventListener('click', function(event) {
     if (!profile.contains(event.target) && !dropdown.contains(event.target)) {
-      dropdown.classList.remove('show');
+      dropdown.style.display = 'none';
     }
   });
+
+  document.getElementById('prevBtn').addEventListener('click', () => {
+  document.getElementById('fieldCarousel').scrollBy({
+    left: -300,
+    behavior: 'smooth'
+  });
+});
+document.getElementById('nextBtn').addEventListener('click', () => {
+  document.getElementById('fieldCarousel').scrollBy({
+    left: 300,
+    behavior: 'smooth'
+  });
+});

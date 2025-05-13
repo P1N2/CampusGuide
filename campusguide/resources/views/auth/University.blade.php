@@ -80,16 +80,23 @@
 <section class="ranking-section" id="field">
   <h2>Filières proposées</h2>
   <div class="underline"></div>
-  <div class="field-carousel">
-    @forelse($fields as $field)
-      <div class="field-card">
-        <img src="{{ asset($field->image) }}" alt="{{ $field->name }}">
-        <h4>{{ $field->name }}</h4>
-        <p>{{ Str::limit($field->description, 80) }}</p>
-      </div>
-    @empty
-      <p>Aucune filière disponible pour cette université.</p>
-    @endforelse
+
+  <div class="field-carousel-wrapper">
+    <button class="carousel-btn left" id="prevBtn"><i class="fas fa-chevron-left"></i></button>
+
+    <div class="field-carousel" id="fieldCarousel">
+      @forelse($fields as $field)
+        <div class="field-card">
+          <img src="{{ asset($field->image) }}" alt="{{ $field->name }}">
+          <h4>{{ $field->name }}</h4>
+          <p>{{ $field->description }}</p>
+        </div>
+      @empty
+        <p>Aucune filière disponible pour cette université.</p>
+      @endforelse
+    </div>
+
+    <button class="carousel-btn right" id="nextBtn"><i class="fas fa-chevron-right"></i></button>
   </div>
 </section>
 

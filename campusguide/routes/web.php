@@ -43,8 +43,8 @@ Route::middleware(['auth'])->group(function () {
 
 Route::middleware(['auth', 'isAdmin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
-    Route::get('/university/create', [AdminController::class, 'createUniversity'])->name('university.create');
     Route::post('/university/store', [AdminController::class, 'storeUniversity'])->name('university.store');
+    Route::post('/field/store', [AdminController::class, 'storeField'])->name('field.store');
 });
 
 
