@@ -4,11 +4,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\UniversityController;
-
+use App\Http\Controllers\AdminController;
 // Page d'accueil pour les invités
-Route::get('/', function () {
-    return Auth::check() ? redirect('/home') : view('auth.home');
-});
+// Page d'accueil (affiche les universités uniquement si l'utilisateur est connecté)
+Route::get('/', [UniversityController::class, 'index'])->name('home');
 Route::post('/logout', function () {
     Auth::logout();
     return redirect('/'); // Redirection vers la page d’accueil en mode invité
@@ -41,6 +40,13 @@ Route::middleware(['auth'])->group(function () {
     });
     Route::get('/universities/{id}', [UniversityController::class, 'show'])->name('university.show');
 });
+
+Route::middleware(['auth', 'isAdmin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+    Route::get('/university/create', [AdminController::class, 'createUniversity'])->name('university.create');
+    Route::post('/university/store', [AdminController::class, 'storeUniversity'])->name('university.store');
+});
+
 
 Route::get('/quiz', function () {
     return view('auth.quiz');

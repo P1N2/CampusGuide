@@ -18,7 +18,7 @@
       <li><a href="/profile">Mon Espace</a></li>
     </ul>
   </nav>
-  <div class="profile">
+  <div class="profile" id= "profile">
     <img src="{{ asset('assets/login.jpg') }}" alt="Profil">
     <span class="profile-text">Penouel<br><small>Baccalauréat A</small></span>
   </div>
@@ -76,23 +76,23 @@
     @endforeach
   </div>
 </div>
-<!-- Filières proposées -->
 @php use Illuminate\Support\Str; @endphp
 <section class="ranking-section" id="field">
   <h2>Filières proposées</h2>
   <div class="underline"></div>
-  <div class="universities">
+  <div class="field-carousel">
     @forelse($fields as $field)
-      <div class="university-card">
+      <div class="field-card">
         <img src="{{ asset($field->image) }}" alt="{{ $field->name }}">
         <h4>{{ $field->name }}</h4>
-        <p>{{ \Illuminate\Support\Str::limit($field->description, 80) }}</p>
+        <p>{{ Str::limit($field->description, 80) }}</p>
       </div>
     @empty
       <p>Aucune filière disponible pour cette université.</p>
     @endforelse
   </div>
 </section>
+
 
 
 <!-- Coordonnées + Contact -->

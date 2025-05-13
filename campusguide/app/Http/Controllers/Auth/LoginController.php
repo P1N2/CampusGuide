@@ -16,24 +16,31 @@ class LoginController extends Controller
         return view('auth.login');
     }
 
-    // Gère l'inscription de l'utilisateur
+    // Gère la connexion de l'utilisateur
     public function login(Request $request)
     {
         // Valider les champs du formulaire de connexion
-    $credentials = $request->validate([
-        'email' => ['required', 'email'],
-        'password' => ['required'],
-    ]);
+        $credentials = $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required'],
+        ]);
 
-    // Tente de connecter l'utilisateur
-    if (auth()->attempt($credentials)) {
-        $request->session()->regenerate(); // Sécurité : éviter le vol de session
-        return redirect()->intended('/home'); // Redirige vers la page souhaitée
-    }
+        // Tente de connecter l'utilisateur
+        if (auth()->attempt($credentials)) {
+            $request->session()->regenerate(); // Sécurité : éviter le vol de session
 
-    // Si échec, retourne une erreur
-    return back()->withErrors([
-        'email' => 'Les identifiants sont incorrects.',
-    ])->onlyInput('email');
+            // Vérifie si l'utilisateur est un administrateur
+            if (auth()->user()->is_admin) {
+                return redirect()->route('admin.dashboard');  // Redirige vers le dashboard admin
+            }
+
+            // Sinon, redirige vers la page d'accueil de l'utilisateur
+            return redirect()->intended('/home');
+        }
+
+        // Si échec, retourne une erreur
+        return back()->withErrors([
+            'email' => 'Les identifiants sont incorrects.',
+        ])->onlyInput('email');
     }
 }

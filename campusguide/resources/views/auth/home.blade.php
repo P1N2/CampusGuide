@@ -98,113 +98,75 @@
   </div>
 </section>
 
+
 <section class="ranking-section" id="University">
-  <h2>Classements des meilleurs universités du pays</h2>
+  <h2>Classements des meilleures universités du pays</h2>
   <div class="underline"></div>
 
-  @auth
-    <div class="universities">
-      @foreach ($universities as $university)
-        <div class="university-card">
-          <a href="{{ route('university.show', $university->id) }}">
+  <div class="universities">
+    @foreach ($universities->take(3) as $university)
+      <div class="university-card">
+        <a href="{{ Auth::check() ? route('university.show', $university->id) : route('register') }}">
           <img src="{{ asset($university->media_url) }}" alt="{{ $university->name }}">
+        </a>
+        <h4>{{ $university->name }}</h4>
+        <a href="{{ Auth::check() ? route('university.show', $university->id) : route('register') }}">
+          Voir université &rarr;
+        </a>
+      </div>
+    @endforeach
+  </div>
+
+  @if ($universities->count() > 3)
+    <div class="extra-universities" id="extra-universities">
+      @foreach ($universities->skip(3) as $university)
+        <div class="university-card">
+          <a href="{{ Auth::check() ? route('university.show', $university->id) : route('register') }}">
+            <img src="{{ asset($university->media_url) }}" alt="{{ $university->name }}">
           </a>
           <h4>{{ $university->name }}</h4>
-          <a href="{{ route('university.show', $university->id) }}">
+          <a href="{{ Auth::check() ? route('university.show', $university->id) : route('register') }}">
             Voir université &rarr;
           </a>
         </div>
       @endforeach
     </div>
 
-    <div id="extra-universities" class="extra-universities">
-      <div class="university-card">
-        <img src="{{ asset('assets/uni2.jpg') }}" alt="Université A">
-        <h4>Université A</h4>
-        <a href="/University">Voir université &rarr;</a>
-      </div>
-      <div class="university-card">
-        <img src="{{ asset('assets/uni3.jpg') }}" alt="Université B">
-        <h4>Université B</h4>
-        <a href="/University">Voir université &rarr;</a>
-      </div>
+    <div style="text-align: center; margin-top: 20px;">
+      <button id="view-all-universities" class="btn-view-all">Voir Tous</button>
     </div>
-    <a href="#extra-universities" id="view-all-universities" class="btn-view-all">Voir Tous</a>
-  @endauth
-
-  @guest
-    <p class="text-center">Connectez-vous pour découvrir le classement des meilleures universités du pays.</p>
-    <div class="universities">
-      <div class="university-card">
-        <img src="{{ asset('assets/uni2.jpg') }}" alt="Université A">
-        <h4>Université A</h4>
-        <a href="{{ route('register') }}">Voir université &rarr;</a>
-      </div>
-      <div class="university-card">
-        <img src="{{ asset('assets/uni3.jpg') }}" alt="Université B">
-        <h4>Université B</h4>
-        <a href="{{ route('register') }}">Voir université &rarr;</a>
-      </div>
-    </div>
-    <!-- <a href="{{ route('register') }}" class="btn-view-all">Voir Tous</a> -->
-  @endguest
+  @endif
 </section>
 
 
 
-
-  <div id="extra-universities" class="extra-universities">
-    <!-- D'autres universités cachées -->
-    <div class="university-card">
-      <img src="{{ asset('assets/uni2.jpg') }}" alt="Université A">
-      <h4>Université A</h4>
-      <a href="{{ Auth::check() ? '/University' : route('register') }}">Voir université &rarr;</a>
-    </div>
-    <div class="university-card">
-      <img src="{{ asset('assets/uni3.jpg') }}" alt="Université B">
-      <h4>Université B</h4>
-      <a href="{{ Auth::check() ? '/University' : route('register') }}">Voir université &rarr;</a>
-    </div>
-  </div>
-  <a href="{{ Auth::check() ? '#extra-universities' : route('register') }}" id="view-all-universities" class="btn-view-all">Voir Tous</a>
-</section>
-
-<!-- Filières populaires -->
 <section class="popular-fields" id="field">
   <h2>Les filières les plus populaires</h2>
   <div class="underline"></div>
   <div class="fields">
-    <div class="field-card">
-      <img src="{{ asset('assets/field1.jpeg') }}" alt="UX Design">
-      <h4>User experience design</h4>
-      <a href="{{ Auth::check() ? '#' : route('register') }}">SEE COURSE GUIDE &rarr;</a>
-    </div>
-    <div class="field-card">
-      <img src="{{ asset('assets/field2.jpeg') }}" alt="Computer science">
-      <h4>Computer science</h4>
-      <a href="{{ Auth::check() ? '#' : route('register') }}">SEE COURSE GUIDE &rarr;</a>
-    </div>
-    <div class="field-card">
-      <img src="{{ asset('assets/field3.jpeg') }}" alt="Business management">
-      <h4>Business management</h4>
-      <a href="{{ Auth::check() ? '#' : route('register') }}">SEE COURSE GUIDE &rarr;</a>
-    </div>
+    @foreach ($fields->take(3) as $field)
+      <div class="field-card">
+        <img src="{{ asset($field->image) }}" alt="{{ $field->name }}">
+        <h4>{{ $field->name }}</h4>
+        <a href="{{ Auth::check() ? '#' : route('register') }}">SEE COURSE GUIDE &rarr;</a>
+      </div>
+    @endforeach
   </div>
-  <div id="extra-fields" class="extra-fields">
-    <!-- D'autres filières cachées -->
-    <div class="field-card">
-      <img src="{{ asset('assets/field2.jpeg') }}" alt="Data Science">
-      <h4>Data Science</h4>
-      <a href="{{ Auth::check() ? '#' : route('register') }}">SEE COURSE GUIDE &rarr;</a>
+
+  @if ($fields->count() > 3)
+    <div id="extra-fields" class="extra-fields">
+      @foreach ($fields->skip(3) as $field)
+        <div class="field-card">
+          <img src="{{ asset($field->image) }}" alt="{{ $field->name }}">
+          <h4>{{ $field->name }}</h4>
+          <a href="{{ Auth::check() ? '#' : route('register') }}">SEE COURSE GUIDE &rarr;</a>
+        </div>
+      @endforeach
     </div>
-    <div class="field-card">
-      <img src="{{ asset('assets/field3.jpeg') }}" alt="Engineering">
-      <h4>Engineering</h4>
-      <a href="{{ Auth::check() ? '#' : route('register') }}">SEE COURSE GUIDE &rarr;</a>
-    </div>
-  </div>
-  <a href="{{ Auth::check() ? '#extra-fields' : route('register') }}" id="view-all-fields" class="btn-view-all">Voir Tous</a>
+    <a href="#field" id="view-all-fields" class="btn-view-all">Voir Tous</a>
+  @endif
 </section>
+
 
 <!-- Footer -->
 <footer class="main-footer">

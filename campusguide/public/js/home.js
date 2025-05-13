@@ -1,25 +1,31 @@
-document.getElementById('view-all-universities').addEventListener('click', function (e) {
-  if (!window.isAuthenticated) {
-    window.location.href = '/register'; // ou utilise une route générée dynamiquement
-    return;
-  }
+document.addEventListener("DOMContentLoaded", function () {
+  const btn = document.getElementById('view-all-universities');
+  
+  if (btn) {
+    btn.addEventListener('click', function () {
+      if (!window.isAuthenticated) {
+        window.location.href = '/register'; // Redirige si non authentifié
+        return;
+      }
 
-  var extraUniversities = document.getElementById('extra-universities');
-  if (extraUniversities.style.display === 'none' || extraUniversities.style.display === '') {
-    extraUniversities.style.display = 'flex';
-    extraUniversities.style.flexWrap = 'wrap';
-    extraUniversities.style.justifyContent = 'center';
-    extraUniversities.style.gap = '30px';
-    this.textContent = 'Voir Moins';
-  } else {
-    extraUniversities.style.display = 'none';
-    this.textContent = 'Voir Tous';
+      const extra = document.getElementById('extra-universities');
+      if (extra.style.display === 'none' || extra.style.display === '') {
+        extra.style.display = 'flex';
+        extra.style.flexWrap = 'wrap';
+        extra.style.justifyContent = 'center';
+        extra.style.gap = '30px';
+        this.textContent = 'Voir Moins'; // Change le texte du bouton
+      } else {
+        extra.style.display = 'none';
+        this.textContent = 'Voir Tous'; // Change le texte du bouton
+      }
+    });
   }
 });
-  
+
   document.getElementById('view-all-fields').addEventListener('click', function (e) {
     if (!window.isAuthenticated) {
-      window.location.href = '/register'; // ou utilise une route générée dynamiquement
+      window.location.href = '/register';
       return;
     }
 
@@ -29,12 +35,13 @@ document.getElementById('view-all-universities').addEventListener('click', funct
       extraFields.style.flexWrap = 'wrap';
       extraFields.style.justifyContent = 'center';
       extraFields.style.gap = '30px';
-      this.textContent = 'Voir moins';
+      this.textContent = 'Voir Moins';
     } else {
       extraFields.style.display = 'none';
       this.textContent = 'Voir Tous';
     }
   });
+
   let currentSlide = 0;
 const slides = document.querySelectorAll('.slide');
 const dots = document.querySelectorAll('.dot');
@@ -71,13 +78,13 @@ setInterval(nextSlide, 5000); // Défilement automatique toutes les 5s
   const profile = document.getElementById('profile');
   const dropdown = document.getElementById('dropdownMenu');
 
-  profile.addEventListener('click', () => {
-    dropdown.style.display = dropdown.style.display === 'flex' ? 'none' : 'flex';
+  profile.addEventListener('click', (e) => {
+    e.stopPropagation(); // Empêche de déclencher le document click
+    dropdown.classList.toggle('show');
   });
 
-  // Ferme le menu si on clique ailleurs
   document.addEventListener('click', function(event) {
     if (!profile.contains(event.target) && !dropdown.contains(event.target)) {
-      dropdown.style.display = 'none';
+      dropdown.classList.remove('show');
     }
   });

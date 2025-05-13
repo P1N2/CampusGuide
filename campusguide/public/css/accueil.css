@@ -132,34 +132,47 @@
   position: absolute;
   top: 70px;
   right: 50px;
-  background-color: white;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-  display: none;
-  flex-direction: column;
+  background: rgba(255, 255, 255, 0.616);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   padding: 10px;
-  z-index: 1000;
   min-width: 180px;
+  opacity: 0;
+  transform: translateY(-10px);
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  z-index: 1000;
+}
+
+.dropdown-menu.show {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
 }
 
 .dropdown-menu a,
 .dropdown-menu button {
-  padding: 8px 12px;
+  padding: 10px 14px;
   text-align: left;
   text-decoration: none;
-  color: black;
+  color:#E5B300;
   font-size: 14px;
   background: none;
   border: none;
   cursor: pointer;
   width: 100%;
+  border-radius: 8px;
+  transition: background 0.3s ease;
 }
 
 .dropdown-menu a:hover,
 .dropdown-menu button:hover {
-  background-color: #f5f5f5;
+  color: #36384E;
 }
+
 /* Auth Buttons (for guests) */
 .auth-buttons {
   display: flex;
@@ -313,6 +326,7 @@
   text-align: center;
   padding: 60px 20px;
 }
+
 .underline {
   width: 60px;
   height: 5px;
@@ -320,12 +334,14 @@
   margin: 10px auto 30px auto;
   border-radius: 5px;
 }
+
 .universities {
   display: flex;
   justify-content: center;
   gap: 30px;
   flex-wrap: wrap;
 }
+
 .university-card {
   background: white;
   width: 280px;
@@ -333,22 +349,27 @@
   transition: all 0.2s ease-in-out;
   cursor: pointer;
 }
-.university-card:hover{
+
+.university-card:hover {
   transform: translate(-5px);
 }
+
 .university-card img {
   width: 100%;
   border-radius: 10px;
 }
+
 .university-card h4 {
   margin-top: 10px;
 }
+
 .university-card a {
   display: inline-block;
   margin: 10px 0;
-  color: #333;
-  font-size: 14px;
+  font-size: 13px;
+  color: #f0b400;
 }
+
 /* Pour cacher les universités supplémentaires au départ */
 .extra-universities {
   display: none;
@@ -357,6 +378,22 @@
 
 .extra-universities .university-card {
   margin-top: 20px;
+}
+
+/* Style du bouton Voir Tous / Voir Moins */
+#view-all-universities {
+  background-color: #f0b400;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+#view-all-universities:hover {
+  background-color: #d89800;
 }
 
 

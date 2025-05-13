@@ -21,13 +21,13 @@ window.onclick = (e) => {
 const profile = document.getElementById('profile');
   const dropdown = document.getElementById('dropdownMenu');
 
-  profile.addEventListener('click', () => {
-    dropdown.style.display = dropdown.style.display === 'flex' ? 'none' : 'flex';
+  profile.addEventListener('click', (e) => {
+    e.stopPropagation(); // Empêche de déclencher le document click
+    dropdown.classList.toggle('show');
   });
 
-  // Ferme le menu si on clique ailleurs
   document.addEventListener('click', function(event) {
     if (!profile.contains(event.target) && !dropdown.contains(event.target)) {
-      dropdown.style.display = 'none';
+      dropdown.classList.remove('show');
     }
   });
