@@ -136,6 +136,17 @@
             <label>Brochure (PDF)</label>
             <input type="file" name="pdf_url" accept="application/pdf">
           </div>
+          <div class="form-group">
+              <label>Filières proposées</label>
+              <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+                @foreach($fields as $field)
+                  <label  class="flex-wrapper">
+                    <input type="checkbox" name="fields[]" value="{{ $field->id }}" style="margin-right: 5px;">
+                    {{ $field->name }}
+                  </label>
+                @endforeach
+              </div>
+            </div>
           <button type="submit" class="submit-btn">Enregistrer</button>
         </form>
       </section>
@@ -207,6 +218,7 @@
     });
   });
 });
+
 </script>
 </body>
 </html>

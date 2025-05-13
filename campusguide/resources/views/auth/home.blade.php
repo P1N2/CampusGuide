@@ -23,12 +23,11 @@
   </nav>
   
   <div class="navbar-right">
-  <form action="" class="search-form" method="GET">
-    <input type="text" name="query" placeholder="Rechercher..." required>
-    <button type="submit">Rechercher</button>
-  </form>
-
   @auth
+      <form class="search-form" onsubmit="return false;">
+        <input type="text" id="searchInput" placeholder="Rechercher..." autocomplete="off">
+        <div id="resultsDropdown" class="dropdown-menu-search" style="display: none;"></div>
+      </form>
     <div class="profile" id="profile">
       <img src="{{ Auth::user()->profile_image ? asset('storage/' . Auth::user()->profile_image) : asset('assets/login.jpg') }}" alt="Profil">
       <span class="profile-text">
@@ -72,7 +71,7 @@
       Accédez à toutes les informations clés en un seul endroit, sans intermédiaire. Trouvez l’établissement parfait pour votre projet d’études.
       Votre avenir commence par le bon choix – faites-le en toute autonomie !
     </p>
-    <a href="#" class="btn-start">Débuter</a>
+    <a href="#University" class="btn-start">Débuter</a>
   </section>
   <!-- Bloc de recherche rapide -->
 <section class="quick-search">
@@ -202,6 +201,44 @@
 <script src="{{ asset('js/home.js') }}" defer></script>
 <script>
   window.isAuthenticated = {{ Auth::check() ? 'true' : 'false' }};
+  const input = document.getElementById('search-input');
+  const resultsBox = document.getElementById('search-results');
+
+  input.addEventListener('input', function () {
+    const query = this.value;
+
+    if (query.length < 2) {
+      resultsBox.style.display = 'none';
+      return;
+    }
+
+    fetch(`/search-live?query=${query}`)
+      .then(res => res.json())
+      .then(data => {
+        resultsBox.innerHTML = '';
+        if (data.length > 0) {
+          data.forEach(item => {
+            const div = document.createElement('div');
+            div.textContent = item.type + ': ' + item.name;
+            div.onclick = () => {
+              const targetId = item.type === 'université' ? `uni-${item.id}` : `field-${item.id}`;
+              const target = document.getElementById(targetId);
+              if (target) {
+                target.scrollIntoView({ behavior: 'smooth' });
+                target.classList.add('highlighted');
+                setTimeout(() => target.classList.remove('highlighted'), 1500);
+              }
+              resultsBox.style.display = 'none';
+              input.value = '';
+            };
+            resultsBox.appendChild(div);
+          });
+          resultsBox.style.display = 'block';
+        } else {
+          resultsBox.style.display = 'none';
+        }
+      });
+  });
 </script>
 
 </body>

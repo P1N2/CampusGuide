@@ -5,6 +5,8 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\UniversityController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\SearchController;
+
 // Page d'accueil pour les invités
 // Page d'accueil (affiche les universités uniquement si l'utilisateur est connecté)
 Route::get('/', [UniversityController::class, 'index'])->name('home');
@@ -39,6 +41,7 @@ Route::middleware(['auth'])->group(function () {
         return view('auth.dashboard');
     });
     Route::get('/universities/{id}', [UniversityController::class, 'show'])->name('university.show');
+    Route::get('/search-suggestions', [ASearchController::class, 'suggest']);
 });
 
 Route::middleware(['auth', 'isAdmin'])->prefix('admin')->name('admin.')->group(function () {

@@ -102,3 +102,31 @@ body {
 .submit-btn:hover {
   background-color: #36384E;
 }
+.flex-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 10px;
+  border-radius: 8px;
+  background-color: #e3f2fd; /* arrière-plan léger */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease-in-out;
+}
+.flex-wrapper:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+.field-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.field-group input {
+  flex: 1 1 30%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
