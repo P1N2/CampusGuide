@@ -100,51 +100,6 @@
 .search-form button:hover {
   background-color: #36384E;
 }
-.dropdown-menu-search {
-  position: absolute;
-  background: white;
-  border: 1px solid #ccc;
-  width: 100%;
-  z-index: 999;
-  max-height: 200px;
-  overflow-y: auto;
-}
-.dropdown-item {
-  padding: 10px;
-  cursor: pointer;
-}
-.dropdown-item:hover {
-  background-color: #f0f0f0;
-}
-#search-results {
-    border: 1px solid #ccc;
-    border-top: none;
-    max-height: 200px;
-    overflow-y: auto;
-    display: none;
-    position: absolute;
-    background: white;
-    width: 100%;
-    z-index: 10;
-  }
-
-  #search-results div {
-    padding: 10px;
-    cursor: pointer;
-  }
-
-  #search-results div:hover {
-    background-color: #f0f0f0;
-  }
-
-  .highlighted {
-    animation: flash 1.5s ease-in-out;
-  }
-
-  @keyframes flash {
-    0% { background-color: yellow; }
-    100% { background-color: transparent; }
-  }
 
 .navbar-right {
   display: flex;
@@ -413,6 +368,25 @@
   margin: 10px 0;
   font-size: 13px;
   color: #f0b400;
+}
+.favorite-icon {
+  color: #ccc;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.favorite-icon.active {
+  color: red;
+}
+
+.favorite-icon:hover {
+  color: red;
+}
+/* .favorite-icon.active {
+  color: red;
+} */
+.university-card {
+  position: relative;
 }
 
 /* Pour cacher les universités supplémentaires au départ */

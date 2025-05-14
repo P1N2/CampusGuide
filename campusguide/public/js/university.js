@@ -44,3 +44,25 @@ document.getElementById('nextBtn').addEventListener('click', () => {
     behavior: 'smooth'
   });
 });
+document.querySelectorAll('.favorite-icon').forEach(icon => {
+  icon.addEventListener('click', function () {
+    const universityId = this.getAttribute('data-id');
+
+    fetch('{{ route("favoris.toggle") }}', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+      },
+      body: JSON.stringify({ university_id: universityId })
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.status === 'added') {
+        this.classList.add('active');
+      } else {
+        this.classList.remove('active');
+      }
+    });
+  });
+});

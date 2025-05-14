@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
+use App\Models\User;
 class University extends Model
 {
     protected $table = 'universities'; // Le nom exact de ta table
@@ -36,5 +36,13 @@ public function galleryImages()
 public function fields()
 {
     return $this->belongsToMany(Field::class, 'propose');
+}
+public function favorites()
+{
+    return $this->hasMany(Favorite::class);
+}
+public function users()
+{
+    return $this->belongsToMany(User::class, 'favorites', 'university_id', 'user_id');
 }
 }

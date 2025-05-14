@@ -17,20 +17,34 @@
                 <img src="{{ asset('assets/logo.png') }}" alt="CampusGuide Logo" class="logo">
             </header>
 
-            <div class="quiz-content">
-                <h2 class="quiz-title">Quiz de Recommandation</h2>
-                
-                <div class="options">
-                    <div class="option"></div>
-                    <div class="option"></div>
-                    <div class="option"></div>
-                    <div class="option"></div>
-                </div>
+           <form method="POST" action="{{ route('quiz.step2') }}">
+    @csrf
+    <div class="quiz-content">
+        <h2 class="quiz-title">Quelle est votre matière préférée ?</h2>
 
-                <div class="next">
-                    <span><a href="{{ route('quiz.step3') }}">suivant</a></span> ➔
-                </div>
-            </div>
+        <div class="options">
+            <label>
+                <input type="radio" name="favorite_subject" value="mathématiques" required>
+                Mathématiques
+            </label>
+            <label>
+                <input type="radio" name="favorite_subject" value="physique">
+                Physique
+            </label>
+            <label>
+                <input type="radio" name="favorite_subject" value="informatique">
+                Informatique
+            </label>
+            <!-- Ajoute d'autres matières selon ton choix -->
+        </div>
+
+        <div class="next">
+            <!-- <button type="submit">Suivant</button> -->
+            <span><a href="{{ route('quiz.step3') }}">suivant</a></span> 
+        </div>
+    </div>
+</form>
+
         </div>
     </div>
     <ul class="background-bubbles">

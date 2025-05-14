@@ -15,7 +15,6 @@
       <li><a href="/home">Accueil</a></li>
       <li><a href="#University">Universités</a></li>
       <li><a href="#field">Filières</a></li>
-      <li><a href="/profile">Mon Espace</a></li>
     </ul>
   </nav>
   <div class="profile" id= "profile">
@@ -23,7 +22,7 @@
     <span class="profile-text">Penouel<br><small>Baccalauréat A</small></span>
   </div>
   <div class="dropdown-menu" id="dropdownMenu">
-      <a href="/profile">Mon espace personnel</a>
+      <a href="/student">Mon espace personnel</a>
       <form method="POST" action="{{ route('logout') }}">
         @csrf
         <button type="submit">Se déconnecter</button>

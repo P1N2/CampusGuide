@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use App\Models\University;
 
 class User extends Authenticatable
 {
@@ -22,6 +23,9 @@ class User extends Authenticatable
         'email',
         'password',
         'is_admin', 
+        'bac_type',
+        'favorite_subject',
+        'interest_area',
     ];
 
     /**
@@ -42,4 +46,12 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    public function favorites()
+{
+    return $this->hasMany(Favorite::class);
+}
+public function universities()
+{
+    return $this->belongsToMany(University::class, 'favorites', 'user_id', 'university_id');
+}
 }

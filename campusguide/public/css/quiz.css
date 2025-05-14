@@ -11,9 +11,10 @@ body, html {
     width: 100%;
     height: 100%;
     overflow: hidden;
+    background: linear-gradient(120deg, #141e30, #243b55);
 }
 
-/* Structure générale */
+/* Structure principale */
 .main-container {
     display: flex;
     height: 100vh;
@@ -45,106 +46,98 @@ body, html {
     }
 }
 
-
 /* Partie droite */
 .right-side {
     flex: 1;
-    background-color: #fff;
+    background: rgba(255, 255, 255, 0.05);
+    -webkit-backdrop-filter: blur(15px);
+    backdrop-filter: blur(15px);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
     padding: 30px;
+    color: #fff;
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
 }
 
+/* Logo */
 .header {
     width: 100%;
     display: flex;
     justify-content: flex-end;
 }
-
 .logo {
-    width: 160px;
+    width: 140px;
     height: auto;
+    filter: drop-shadow(0 0 5px #E5B300);
 }
 
+/* Contenu du quiz */
 .quiz-content {
     width: 100%;
     max-width: 500px;
     text-align: center;
     margin-top: 50px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    animation: fadeInUp 1s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .quiz-title {
     font-size: 1.8em;
     color: #E5B300;
     margin-bottom: 30px;
-    animation: fadeUp 1s ease-out forwards;
-    opacity: 0;
-}
-@keyframes fadeUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    text-shadow: 0 0 8px rgba(229, 179, 0, 0.3);
 }
 
+/* Options du quiz */
 .options {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
     gap: 20px;
     justify-content: center;
     margin-bottom: 40px;
 }
-.options .option:nth-child(1) {
-    animation-delay: 0.2s;
-}
-.options .option:nth-child(2) {
-    animation-delay: 0.4s;
-}
-.options .option:nth-child(3) {
-    animation-delay: 0.6s;
-}
-.options .option:nth-child(4) {
-    animation-delay: 0.8s;
-}
 
 .option {
-    background-color: #E5B300;
-    color: white;
+    background: linear-gradient(135deg, #E5B300, #ffcc00);
+    color: #222;
     border-radius: 50px;
-    padding: 20px;
+    padding: 18px 24px;
     font-weight: bold;
     cursor: pointer;
-    transition: 0.3s;
+    transition: 0.3s ease;
     text-align: center;
-    opacity: 0;
-    transform: translateY(20px);
-    animation: fadeSlideIn 0.6s ease forwards;
+    box-shadow: 0 5px 15px rgba(229, 179, 0, 0.4);
+    position: relative;
+    z-index: 1;
 }
-@keyframes fadeSlideIn {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
 .option:hover {
-    background-color: #36384E;
+    background: #36384E;
     color: #fff;
+    box-shadow: 0 0 15px #E5B300;
+    transform: translateY(-2px);
 }
 
+/* Bouton suivant */
 .next {
     font-size: 1em;
-    color: #36384E;
+    color: #E5B300;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -152,19 +145,37 @@ body, html {
     gap: 5px;
     transition: transform 0.2s ease;
 }
-
 .next:hover {
     transform: translateX(5px);
-    color: #E5B300;
+    color: #fff;
 }
-.next a{
-    white-space: nowrap;
+.next a {
     text-decoration: none;
-    color: #E5B300;
+    color: inherit;
+    font-weight: bold;
     transition: color 0.3s;
 }
 .next a:hover {
     text-decoration: underline;
-    color: #36384E;
 }
 
+/* Responsive */
+@media screen and (max-width: 768px) {
+    .main-container {
+        flex-direction: column;
+    }
+
+    .left-side {
+        height: 40%;
+    }
+
+    .right-side {
+        height: 60%;
+        padding: 20px;
+    }
+
+    .quiz-content {
+        margin-top: 20px;
+        padding: 20px;
+    }
+}

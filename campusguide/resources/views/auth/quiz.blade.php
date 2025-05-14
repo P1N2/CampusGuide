@@ -17,20 +17,34 @@
                 <img src="{{ asset('assets/logo.png') }}" alt="CampusGuide Logo" class="logo">
             </header>
 
-            <div class="quiz-content">
-                <h2 class="quiz-title">Quiz de Recommandation</h2>
-                
-                <div class="options">
-                    <div class="option">Option A</div>
-                    <div class="option">Option B</div>
-                    <div class="option">Option C</div>
-                    <div class="option">Option D</div>
-                </div>
+            <!-- <form method="POST" action="{{ route('quiz.step1') }}"> -->
+    @csrf
+    <div class="quiz-content">
+        <h2 class="quiz-title">Quel type de bac avez-vous ?</h2>
 
-                <div class="next">
-                    <span><a href="{{ route('quiz.step2') }}">suivant</a></span> ➔
-                </div>
-            </div>
+        <div class="options">
+            <label>
+                <input type="radio" name="bac_type" value="scientifique" required>
+                Scientifique
+            </label>
+            <label>
+                <input type="radio" name="bac_type" value="litteraire">
+                Littéraire
+            </label>
+            <label>
+                <input type="radio" name="bac_type" value="economique">
+                Economique
+            </label>
+            <!-- Ajoute d'autres options si nécessaire -->
+        </div>
+
+        <div class="next">
+            <!-- <button type="submit">Suivant</button> -->
+             <span><a href="{{ route('quiz.step2') }}">suivant</a></span> 
+        </div>
+    </div>
+</form>
+
         </div>
     </div>
 </body>

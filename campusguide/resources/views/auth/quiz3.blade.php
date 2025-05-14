@@ -17,20 +17,38 @@
                 <img src="{{ asset('assets/logo.png') }}" alt="CampusGuide Logo" class="logo">
             </header>
 
-            <div class="quiz-content">
-                <h2 class="quiz-title">Quiz de Recommandation</h2>
-                
-                <div class="options">
-                    <div class="option"></div>
-                    <div class="option"></div>
-                    <div class="option"></div>
-                    <div class="option"></div>
-                </div>
+            <!-- <form method="POST" action="{{ route('quiz.step3') }}"> -->
+    @csrf
+    <div class="quiz-content">
+        <h2 class="quiz-title">Quel est votre domaine d’intérêt principal ?</h2>
 
-                <div class="next">
-                    <span>suivant</span> ➔
-                </div>
-            </div>
+        <div class="options">
+            <label>
+                <input type="radio" name="interest_area" value="sciences" required>
+                Sciences
+            </label>
+            <label>
+                <input type="radio" name="interest_area" value="arts">
+                Arts
+            </label>
+            <label>
+                <input type="radio" name="interest_area" value="commerce">
+                Commerce
+            </label>
+            <label>
+                <input type="radio" name="interest_area" value="ingenierie">
+                Ingénierie
+            </label>
+            <!-- Ajoute d'autres domaines si nécessaire -->
+        </div>
+
+        <div class="next">
+            <!-- <button type="submit">Terminer</button> -->
+             <span>suivant</span>
+        </div>
+    </div>
+</form>
+
         </div>
     </div>
     <ul class="background-bubbles">
