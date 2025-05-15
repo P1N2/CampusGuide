@@ -37,6 +37,6 @@ class RegisterController extends Controller
         auth()->login($user);
 
         // Rediriger vers la page d'accueil ou tableau de bord
-        return redirect('/home');
+        return redirect('/quiz')->with('success', 'Inscription réussie ! Veuillez compléter le quiz pour personnaliser votre expérience.');
     }
 }

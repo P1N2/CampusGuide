@@ -3,32 +3,27 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use App\Models\Favorite;
+use Illuminate\Support\Facades\Auth;
 
 class FavoriteController extends Controller
 {
-
-
-public function toggle(Request $request)
+    public function toggle($universityId)
 {
-    $user = Auth::user();
-    $universityId = $request->input('university_id');
+    $user = auth()->user();
 
-    $existing = Favorite::where('user_id', $user->id)
-                        ->where('university_id', $universityId)
-                        ->first();
+    // Vérifie si l'université est déjà dans les favoris
+    $favorite = $user->favorites()->where('university_id', $universityId)->first();
 
-    if ($existing) {
-        $existing->delete();
-        return response()->json(['status' => 'removed']);
+    if ($favorite) {
+        $favorite->delete();
+        $message = "Université retirée des favoris.";
     } else {
-        Favorite::create([
-            'user_id' => $user->id,
-            'university_id' => $universityId,
-        ]);
-        return response()->json(['status' => 'added']);
+        $user->favorites()->create(['university_id' => $universityId]);
+        $message = "Université ajoutée aux favoris.";
     }
+
+    return redirect()->back()->with('status', $message);
 }
 
 }

@@ -16,34 +16,28 @@
             <header class="header">
                 <img src="{{ asset('assets/logo.png') }}" alt="CampusGuide Logo" class="logo">
             </header>
+            @if(session('success'))
+                    <div class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
+            @endif
+
 
             <!-- <form method="POST" action="{{ route('quiz.step1') }}"> -->
+   @auth
+<form method="POST" action="{{ route('quiz.step1') }}">
     @csrf
-    <div class="quiz-content">
-        <h2 class="quiz-title">Quel type de bac avez-vous ?</h2>
+    <h2>Quel est ton type de bac ?</h2>
 
-        <div class="options">
-            <label>
-                <input type="radio" name="bac_type" value="scientifique" required>
-                Scientifique
-            </label>
-            <label>
-                <input type="radio" name="bac_type" value="litteraire">
-                Littéraire
-            </label>
-            <label>
-                <input type="radio" name="bac_type" value="economique">
-                Economique
-            </label>
-            <!-- Ajoute d'autres options si nécessaire -->
-        </div>
+    <label><input type="radio" name="bac_type" value="Scientifique"> Scientifique</label><br>
+    <label><input type="radio" name="bac_type" value="Littéraire"> Littéraire</label><br>
+    <label><input type="radio" name="bac_type" value="Technique"> Technique</label><br>
 
-        <div class="next">
-            <!-- <button type="submit">Suivant</button> -->
-             <span><a href="{{ route('quiz.step2') }}">suivant</a></span> 
-        </div>
-    </div>
+    <button type="submit">Suivant</button>
 </form>
+@else
+    <script>window.location.href = "{{ route('login') }}";</script>
+@endauth
 
         </div>
     </div>

@@ -38,6 +38,20 @@
       <img src="{{ asset($image->image_path) }}" alt="Bannière {{ $index + 1 }}">
         <div class="overlay">
           <h1>{{ $university->nom }}</h1>
+          @auth
+    @php
+        // Vérifie si l'université est déjà en favoris pour l'utilisateur connecté
+        $isFavorited = auth()->user()->favorites->contains('university_id', $university->id);
+    @endphp
+
+    <form method="POST" action="{{ route('favorites.toggle', $university->id) }}" style="display: inline;">
+        @csrf
+        <button type="submit" class="favorite-btn" style="background:none; border:none; cursor:pointer; font-size: 1.5rem; color: {{ $isFavorited ? 'red' : 'gray' }};" title="{{ $isFavorited ? 'Retirer des favoris' : 'Ajouter aux favoris' }}">
+            <i class="fa{{ $isFavorited ? 's' : 'r' }} fa-heart"></i>
+        </button>
+    </form>
+@endauth
+
           <p>{{ $university->slogan ?? 'Excellence, Innovation, Réussite' }}</p>
         </div>
       </div>

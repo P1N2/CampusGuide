@@ -17,23 +17,23 @@
   <nav>
     <ul class="nav-links">
       <li><a href="/home">Accueil</a></li>
-        <li><a href="#University">Universités</a></li>
-        <li><a href="#field">Filières</a></li>
+        <li><a href="{{ route('universities.search') }}">Universités</a></li>
+        <li><a href="{{ route('fields.search') }}">Filières</a></li>
     </ul>
   </nav>
   
   <div class="navbar-right">
-  <form action="" class="search-form" method="GET">
+  <!-- <form action="" class="search-form" method="GET">
     <input type="text" name="query" placeholder="Rechercher..." required>
     <button type="submit">Rechercher</button>
-  </form>
+  </form> -->
 
   @auth
     <div class="profile" id="profile">
       <img src="{{ Auth::user()->profile_image ? asset('storage/' . Auth::user()->profile_image) : asset('assets/login.jpg') }}" alt="Profil">
       <span class="profile-text">
         {{ Auth::user()->name }}<br>
-        <small>{{ Auth::user()->field ?? 'Étudiant' }}</small>
+        <small>{{ Auth::user()->bac_type ?? 'Étudiant' }}</small>
       </span>
     </div>
 
@@ -77,17 +77,15 @@
   <!-- Bloc de recherche rapide -->
 <section class="quick-search">
   <div class="cards">
-    <div class="card">
+    <div class="card"  onclick="window.location.href='{{ route('universities.search') }}'">
       <div class="icon">🔍</div>
       <h3>Trouver une université</h3>
       <p>Search by subject, course or region to find the right course for you.</p>
-      <a href="#">Voir &rarr;</a>
     </div>
-    <div class="card">
+    <div class="card"  onclick="window.location.href='{{ route('fields.search') }}'">
       <div class="icon">📚</div>
       <h3>Chercher une Filière</h3>
       <p>Search for universities to find out about courses and more.</p>
-      <a href="#">Voir &rarr;</a>
     </div>
     <div class="card">
       <div class="icon">🏠</div>
@@ -174,9 +172,9 @@
 
     <div class="footer-links">
       <h4>Navigation</h4>
-      <a href="#">Accueil</a>
-      <a href="#">Universités</a>
-      <a href="#">Filières</a>
+      <a href="/home">Accueil</a>
+      <a href="{{ route('universities.search') }}">Universités</a>
+      <a href="{{ route('fields.search') }}">Filières</a>
       <a href="#">Contact</a>
     </div>
 

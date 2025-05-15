@@ -17,33 +17,22 @@
                 <img src="{{ asset('assets/logo.png') }}" alt="CampusGuide Logo" class="logo">
             </header>
 
-           <form method="POST" action="{{ route('quiz.step2') }}">
+           @auth
+<form method="POST" action="{{ route('quiz.step2') }}">
     @csrf
-    <div class="quiz-content">
-        <h2 class="quiz-title">Quelle est votre matière préférée ?</h2>
+    <h2>Quelle est ta matière préférée ?</h2>
 
-        <div class="options">
-            <label>
-                <input type="radio" name="favorite_subject" value="mathématiques" required>
-                Mathématiques
-            </label>
-            <label>
-                <input type="radio" name="favorite_subject" value="physique">
-                Physique
-            </label>
-            <label>
-                <input type="radio" name="favorite_subject" value="informatique">
-                Informatique
-            </label>
-            <!-- Ajoute d'autres matières selon ton choix -->
-        </div>
+    <label><input type="radio" name="favorite_subject" value="Maths"> Maths</label><br>
+    <label><input type="radio" name="favorite_subject" value="Physique"> Physique</label><br>
+    <label><input type="radio" name="favorite_subject" value="SVT"> SVT</label><br>
+    <label><input type="radio" name="favorite_subject" value="Philosophie"> Philosophie</label><br>
+    <label><input type="radio" name="favorite_subject" value="Économie"> Économie</label><br>
 
-        <div class="next">
-            <!-- <button type="submit">Suivant</button> -->
-            <span><a href="{{ route('quiz.step3') }}">suivant</a></span> 
-        </div>
-    </div>
+    <button type="submit">Suivant</button>
 </form>
+@else
+    <script>window.location.href = "{{ route('login') }}";</script>
+@endauth
 
         </div>
     </div>

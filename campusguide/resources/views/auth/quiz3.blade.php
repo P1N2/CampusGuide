@@ -17,37 +17,22 @@
                 <img src="{{ asset('assets/logo.png') }}" alt="CampusGuide Logo" class="logo">
             </header>
 
-            <!-- <form method="POST" action="{{ route('quiz.step3') }}"> -->
+         @auth
+<form method="POST" action="{{ route('quiz.step3') }}">
     @csrf
-    <div class="quiz-content">
-        <h2 class="quiz-title">Quel est votre domaine d’intérêt principal ?</h2>
+    <h2>Quel est ton domaine d’intérêt principal ?</h2>
 
-        <div class="options">
-            <label>
-                <input type="radio" name="interest_area" value="sciences" required>
-                Sciences
-            </label>
-            <label>
-                <input type="radio" name="interest_area" value="arts">
-                Arts
-            </label>
-            <label>
-                <input type="radio" name="interest_area" value="commerce">
-                Commerce
-            </label>
-            <label>
-                <input type="radio" name="interest_area" value="ingenierie">
-                Ingénierie
-            </label>
-            <!-- Ajoute d'autres domaines si nécessaire -->
-        </div>
+    <label><input type="radio" name="interest_domain" value="Sciences"> Sciences</label><br>
+    <label><input type="radio" name="interest_domain" value="Littérature"> Littérature</label><br>
+    <label><input type="radio" name="interest_domain" value="Technologie"> Technologie</label><br>
+    <label><input type="radio" name="interest_domain" value="Économie"> Économie</label><br>
+    <label><input type="radio" name="interest_domain" value="Art"> Art</label><br>
 
-        <div class="next">
-            <!-- <button type="submit">Terminer</button> -->
-             <span>suivant</span>
-        </div>
-    </div>
+    <button type="submit">Terminer</button>
 </form>
+@else
+    <script>window.location.href = "{{ route('login') }}";</script>
+@endauth
 
         </div>
     </div>

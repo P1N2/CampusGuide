@@ -14,15 +14,17 @@ class Favorite extends Model
 
     // Protéger les colonnes contre l'attribution en masse
     protected $fillable = ['user_id', 'university_id'];
-
+    
+    public $timestamps = false;
     // Définir les relations si besoin
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
+   public function user()
+{
+    return $this->belongsTo(User::class);
+}
 
-    public function university()
-    {
-        return $this->belongsTo(University::class);
-    }
+public function university()
+{
+    return $this->belongsTo(University::class);
+}
+
 }
