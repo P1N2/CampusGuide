@@ -4,10 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\University;
-use App\Models\Field;
-use App\Models\User;
-use App\Models\SearchHistory;
+use App\Models\Favorite;
 
 class StudentController extends Controller
 {
@@ -15,19 +12,20 @@ class StudentController extends Controller
     {
         $user = Auth::user();
 
-        // Statistiques personnelles
-        $favorites = $user->favorites ?? collect();
-        $searchCount = SearchHistory::where('user_id', $user->id)->count();
-        $visitedUniversities = $user->visited_universities ?? 0; // à implémenter si tracking des visites
+        // Récupérer les favoris avec leurs universités associées
+        $favorites = $user->favorites()->with('university')->get();
 
-        $history = SearchHistory::where('user_id', $user->id)->orderBy('created_at', 'desc')->limit(10)->get();
+        // Variables commentées pour l'instant, à réactiver plus tard
+        // $searchCount = SearchHistory::where('user_id', $user->id)->count();
+        // $visitedUniversities = $user->visited_universities ?? 0; // à implémenter si tracking des visites
+        // $history = SearchHistory::where('user_id', $user->id)->orderBy('created_at', 'desc')->limit(10)->get();
 
         return view('auth.student', [
             'user' => $user,
             'favorites' => $favorites,
-            'searchCount' => $searchCount,
-            'visitedUniversities' => $visitedUniversities,
-            'history' => $history
+            // 'searchCount' => $searchCount,
+            // 'visitedUniversities' => $visitedUniversities,
+            // 'history' => $history
         ]);
     }
 
@@ -48,9 +46,12 @@ class StudentController extends Controller
     public function deleteFavorite($id)
     {
         $user = Auth::user();
-        $user->favorites()->detach($id);
+
+        // Supprimer le favori correspondant à l'utilisateur et l'université
+        Favorite::where('user_id', $user->id)
+                ->where('university_id', $id)
+                ->delete();
 
         return redirect()->back()->with('success', 'Université retirée des favoris.');
     }
 }
-

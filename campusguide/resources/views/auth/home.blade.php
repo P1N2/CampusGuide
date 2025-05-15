@@ -38,7 +38,7 @@
     </div>
 
     <div class="dropdown-menu" id="dropdownMenu">
-      <a href="/student">Mon espace personnel</a>
+      <a href="{{ route('student.dashboard') }}">Mon espace personnel</a>
       <form method="POST" action="{{ route('logout') }}">
         @csrf
         <button type="submit">Se déconnecter</button>

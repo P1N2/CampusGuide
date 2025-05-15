@@ -10,6 +10,7 @@ use App\Http\Controllers\QuizController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\UniversitySearchController;
 use App\Http\Controllers\FieldSearchController;
+use App\Http\Controllers\StudentController;
 
 // Page d'accueil pour les invités
 // Page d'accueil (affiche les universités uniquement si l'utilisateur est connecté)
@@ -37,9 +38,9 @@ Route::middleware(['auth'])->group(function () {
         return view('auth.field');
     });
 
-    Route::get('/student', function () {
-        return view('auth.student');
-    });
+    // Route::get('/student', function () {
+    //     return view('auth.student');
+    // });
 
     Route::get('/dashboard', function () {
         return view('auth.dashboard');
@@ -62,6 +63,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/search-fields', [FieldSearchController::class, 'index'])->name('fields.search');
     Route::get('/ajax-search-fields', [FieldSearchController::class, 'ajaxSearch'])->name('fields.ajaxSearch');
     Route::get('/filiere/{id}', [FieldSearchController::class, 'showUniversities'])->name('field.universities');
+});
+Route::middleware(['auth'])->group(function () {
+    Route::get('/student/dashboard', [StudentController::class, 'dashboard'])->name('student.dashboard');
+    Route::delete('/student/favorite/{id}', [StudentController::class, 'deleteFavorite'])->name('student.deleteFavorite');
 });
 
 // Route::get('/quiz', function () {

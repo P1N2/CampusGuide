@@ -11,7 +11,7 @@
   <div class="student-container">
     <!-- Sidebar -->
     <aside class="sidebar">
-      <h2>Bienvenue{{ Auth::user()->name }}</h2>
+      <h2>Bienvenue {{ Auth::user()->name }}</h2>
       <ul>
         <li><a href="#" class="menu-link active" data-section="home"><i class="fas fa-home"></i> Accueil</a></li>
         <li><a href="#" class="menu-link" data-section="favorites"><i class="fas fa-star"></i> Mes favoris</a></li>
@@ -30,22 +30,43 @@
 
       <section id="favorites" class="content-section" style="display: none;">
         <h1>Mes Universités Favorites</h1>
-        <p>Liste à venir avec les universités que tu as ajoutées en favori.</p>
+
+        @if ($favorites->isEmpty())
+          <p>Tu n'as pas encore ajouté d'université en favori.</p>
+        @else
+          <ul>
+            @foreach ($favorites as $favorite)
+              <li>
+                <a href="{{ route('university.show', $favorite->university->id) }}">
+                  {{ $favorite->university->name }}
+                </a>
+                <form method="POST" action="{{ route('student.deleteFavorite', $favorite->university->id) }}" style="display:inline;">
+                  @csrf
+                  @method('DELETE')
+                  <button type="submit" style="background:none; border:none; color:red; cursor:pointer;" title="Supprimer des favoris">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </form>
+              </li>
+            @endforeach
+          </ul>
+        @endif
       </section>
 
+      <!-- Onglets non encore implémentés -->
       <section id="history" class="content-section" style="display: none;">
         <h1>Historique de recherche</h1>
-        <p>Retrouve ici les universités et filières que tu as consultées récemment.</p>
+        <p><em>À venir...</em></p>
       </section>
 
       <section id="profile" class="content-section" style="display: none;">
         <h1>Mon Profil</h1>
-        <p>Informations personnelles, préférences, et gestion de ton compte.</p>
+        <p><em>À venir...</em></p>
       </section>
 
       <section id="settings" class="content-section" style="display: none;">
         <h1>Paramètres</h1>
-        <p>Modifier les préférences de ton compte (thème, notifications...)</p>
+        <p><em>À venir...</em></p>
       </section>
     </main>
   </div>
