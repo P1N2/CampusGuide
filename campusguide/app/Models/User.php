@@ -50,8 +50,8 @@ class User extends Authenticatable
 {
     return $this->hasMany(Favorite::class);
 }
-// public function universities()
-// {
-//     return $this->belongsToMany(University::class, 'favorites', 'user_id', 'university_id');
-// }
+ public function universities()
+{
+    return $this->belongsToMany(University::class, 'favorites', 'user_id', 'university_id');
+}
 }

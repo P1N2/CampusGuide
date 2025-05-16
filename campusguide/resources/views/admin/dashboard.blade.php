@@ -45,12 +45,57 @@
             <p>Utilisateurs</p>
           </div>
         </div>
+        <!-- Graphique des inscriptions -->
+            <div style="margin-top: 40px;">
+              <h2 style="margin-bottom: 10px;">Inscriptions mensuelles</h2>
+              <canvas id="registrationChart" height="100"></canvas>
+            </div>
       </section>
-                <!-- Section Utilisateurs -->
-          <section id="users" class="content-section" style="display: none;">
-            <h1>Gestion des Utilisateurs</h1>
-            <p>Ici, tu pourras voir la liste des utilisateurs, leurs rôles, etc. (à implémenter plus tard)</p>
-          </section>
+                <section id="users" class="content-section" style="display: none;">
+  <h1>Gestion des Utilisateurs</h1>
+
+  @if(session('success'))
+    <p style="color: green; font-weight: bold;">{{ session('success') }}</p>
+  @endif
+
+  <table class="user-table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Nom</th>
+        <th>Email</th>
+        <th>Rôle</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      @foreach(\App\Models\User::all() as $user)
+        <tr>
+          <td>{{ $user->id }}</td>
+          <td>{{ $user->name }}</td>
+          <td>{{ $user->email }}</td>
+          <td>{{ $user->is_admin ? 'Admin' : 'Utilisateur' }}</td>
+          <td>
+            <form method="POST" action="{{ route('admin.user.toggleRole', $user->id) }}" style="display:inline;">
+              @csrf
+              @method('PUT')
+              <button type="submit" class="action-btn">
+                {{ $user->is_admin ? 'Rendre Utilisateur' : 'Rendre Admin' }}
+              </button>
+            </form>
+
+            <form method="POST" action="{{ route('admin.user.delete', $user->id) }}" style="display:inline;" onsubmit="return confirm('Supprimer cet utilisateur ?');">
+              @csrf
+              @method('DELETE')
+              <button type="submit" class="action-btn red">Supprimer</button>
+            </form>
+          </td>
+        </tr>
+      @endforeach
+    </tbody>
+  </table>
+</section>
+
 
           <!-- Section Paramètres -->
           <section id="settings" class="content-section" style="display: none;">
@@ -193,7 +238,7 @@
 
     </main>
   </div>
-
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script >
   document.addEventListener('DOMContentLoaded', function () {
   const links = document.querySelectorAll('.menu-link');
@@ -218,7 +263,37 @@
     });
   });
 });
-
+  const ctx = document.getElementById('registrationChart').getContext('2d');
+  const registrationChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: [
+        'Janv', 'Févr', 'Mars', 'Avr', 'Mai', 'Juin',
+        'Juil', 'Août', 'Sept', 'Oct', 'Nov', 'Déc'
+      ],
+      datasets: [{
+        label: 'Inscriptions en {{ now()->year }}',
+        data: @json($registrationsByMonth),
+        fill: true,
+        borderColor: '#4CAF50',
+        backgroundColor: 'rgba(76, 175, 80, 0.2)',
+        tension: 0.3,
+        pointRadius: 4,
+        pointBackgroundColor: '#388E3C'
+      }]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: {
+            precision: 0
+          }
+        }
+      }
+    }
+  });
 </script>
 </body>
 </html>

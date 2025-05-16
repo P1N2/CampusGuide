@@ -27,8 +27,25 @@ class AdminController extends Controller
     $fieldsCount = Field::count();
     $usersCount = User::count();
     $fields = Field::all(); // Ajouté
+    $users = User::all();
+    
+    // Inscriptions par mois de l'année courante
+    $monthlyRegistrations = User::selectRaw('MONTH(created_at) as month, COUNT(*) as count')
+        ->whereYear('created_at', now()->year)
+        ->groupBy('month')
+        ->orderBy('month')
+        ->get()
+        ->pluck('count', 'month')
+        ->toArray();
 
-    return view('admin.dashboard', compact('universitiesCount', 'fieldsCount', 'usersCount', 'fields'));
+    // On complète les mois manquants avec 0
+    $registrationsByMonth = [];
+    for ($i = 1; $i <= 12; $i++) {
+        $registrationsByMonth[] = $monthlyRegistrations[$i] ?? 0;
+    }
+    
+    return view('admin.dashboard', compact('universitiesCount', 'fieldsCount', 'usersCount', 'fields', 'users','registrationsByMonth'));
+
 }
 public function storeField(Request $request)
 {
@@ -79,5 +96,24 @@ public function storeUniversity(Request $request)
 
     return redirect()->route('admin.dashboard')->with('good', 'Université ajoutée avec succès !');
 }
+// Changer le rôle de l'utilisateur
+public function toggleRole($id)
+{
+    $user = User::findOrFail($id);
+    $user->is_admin = !$user->is_admin;
+    $user->save();
+
+    return back()->with('success', 'Rôle mis à jour avec succès.');
+}
+
+// Supprimer un utilisateur
+public function deleteUser($id)
+{
+    $user = User::findOrFail($id);
+    $user->delete();
+
+    return back()->with('success', 'Utilisateur supprimé avec succès.');
+}
+
 
 }

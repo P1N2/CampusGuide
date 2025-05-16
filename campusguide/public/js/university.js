@@ -66,3 +66,39 @@ document.querySelectorAll('.favorite-icon').forEach(icon => {
     });
   });
 });
+document.querySelectorAll('.favorite-btn').forEach(button => {
+    button.addEventListener('click', function (e) {
+        e.preventDefault();
+        const universityId = this.dataset.universityId;
+
+        fetch(`/favorites/toggle/${universityId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+        })
+        .then(() => {
+            // Toggle tous les boutons liés à la même université
+            document.querySelectorAll(`.favorite-btn[data-university-id="${universityId}"]`).forEach(btn => {
+                btn.classList.toggle('active');
+                
+                // Changer l’icône (fa-heart)
+                const icon = btn.querySelector('i');
+                if (btn.classList.contains('active')) {
+                    icon.classList.remove('far');
+                    icon.classList.add('fas');
+                    icon.style.color = 'red';
+                } else {
+                    icon.classList.remove('fas');
+                    icon.classList.add('far');
+                    icon.style.color = 'gray';
+                }
+
+                // Ajouter l’animation pulse
+                icon.classList.add('pulse');
+                setTimeout(() => icon.classList.remove('pulse'), 500);
+            });
+        });
+    });
+});

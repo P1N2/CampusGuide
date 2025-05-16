@@ -5,43 +5,48 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Favorite;
+use App\Models\University;
 
 class StudentController extends Controller
 {
-    public function dashboard()
-    {
-        $user = Auth::user();
 
-        // Récupérer les favoris avec leurs universités associées
-        $favorites = $user->favorites()->with('university')->get();
+public function dashboard()
+{
+    $user = Auth::user();
 
-        // Variables commentées pour l'instant, à réactiver plus tard
-        // $searchCount = SearchHistory::where('user_id', $user->id)->count();
-        // $visitedUniversities = $user->visited_universities ?? 0; // à implémenter si tracking des visites
-        // $history = SearchHistory::where('user_id', $user->id)->orderBy('created_at', 'desc')->limit(10)->get();
+    $favorites = $user->favorites()->with('university')->get();
 
-        return view('auth.student', [
-            'user' => $user,
-            'favorites' => $favorites,
-            // 'searchCount' => $searchCount,
-            // 'visitedUniversities' => $visitedUniversities,
-            // 'history' => $history
-        ]);
-    }
+    $randomUniversities = University::inRandomOrder()->take(3)->get(); // 3 universités aléatoires
+
+    return view('auth.student', [
+        'user' => $user,
+        'favorites' => $favorites,
+        'randomUniversities' => $randomUniversities,
+    ]);
+}
 
     public function updateProfile(Request $request)
-    {
-        $user = Auth::user();
+{
+    $user = Auth::user();
 
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255|unique:users,email,' . $user->id,
-        ]);
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|email|max:255|unique:users,email,' . $user->id,
+        'bac_type' => 'nullable|string|max:255',
+        'favorite_subject' => 'nullable|string|max:255',
+        'interest_area' => 'nullable|string|max:255',
+    ]);
 
-        $user->update($request->only('name', 'email'));
+    $user->update([
+        'name' => $request->name,
+        'email' => $request->email,
+        'bac_type' => $request->bac_type,
+        'favorite_subject' => $request->favorite_subject,
+        'interest_area' => $request->interest_area,
+    ]);
 
-        return redirect()->back()->with('success', 'Profil mis à jour avec succès !');
-    }
+    return redirect()->back()->with('success', 'Profil mis à jour avec succès !');
+}
 
     public function deleteFavorite($id)
     {

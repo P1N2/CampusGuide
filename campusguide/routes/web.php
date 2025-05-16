@@ -53,6 +53,11 @@ Route::middleware(['auth', 'isAdmin'])->prefix('admin')->name('admin.')->group(f
     Route::post('/university/store', [AdminController::class, 'storeUniversity'])->name('university.store');
     Route::post('/field/store', [AdminController::class, 'storeField'])->name('field.store');
 });
+Route::middleware(['auth'])->prefix('admin')->group(function () {
+    Route::put('/user/{id}/role', [AdminController::class, 'toggleRole'])->name('admin.user.toggleRole');
+    Route::delete('/user/{id}', [AdminController::class, 'deleteUser'])->name('admin.user.delete');
+});
+
 
 Route::post('/favorites/toggle/{university}', [FavoriteController::class, 'toggle'])->name('favorites.toggle')->middleware('auth');
 Route::middleware(['auth'])->group(function () {
@@ -67,6 +72,7 @@ Route::middleware(['auth'])->group(function () {
 Route::middleware(['auth'])->group(function () {
     Route::get('/student/dashboard', [StudentController::class, 'dashboard'])->name('student.dashboard');
     Route::delete('/student/favorite/{id}', [StudentController::class, 'deleteFavorite'])->name('student.deleteFavorite');
+    Route::put('/student/profile', [StudentController::class, 'updateProfile'])->name('student.updateProfile');
 });
 
 // Route::get('/quiz', function () {

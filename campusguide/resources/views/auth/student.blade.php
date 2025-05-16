@@ -15,18 +15,56 @@
       <ul>
         <li><a href="#" class="menu-link active" data-section="home"><i class="fas fa-home"></i> Accueil</a></li>
         <li><a href="#" class="menu-link" data-section="favorites"><i class="fas fa-star"></i> Mes favoris</a></li>
-        <li><a href="#" class="menu-link" data-section="history"><i class="fas fa-history"></i> Historique</a></li>
+        <!-- <li><a href="#" class="menu-link" data-section="history"><i class="fas fa-history"></i> Historique</a></li> -->
         <li><a href="#" class="menu-link" data-section="profile"><i class="fas fa-user"></i> Profil</a></li>
-        <li><a href="#" class="menu-link" data-section="settings"><i class="fas fa-cog"></i> Paramètres</a></li>
+        <li><a href="{{ route('home') }}"><i class="fas fa-arrow-left"></i> Retour à l’accueil</a></li>
+          <li>
+            <form method="POST" action="{{ route('logout') }}" style="display: inline;">
+              @csrf
+              <button type="submit" style="background: none; border: none; color: #fff; padding: 0; font: inherit; cursor: pointer;">
+                <i class="fas fa-sign-out-alt"></i> Se déconnecter
+              </button>
+            </form>
+          </li>
       </ul>
     </aside>
 
     <!-- Main content -->
     <main class="main-content">
       <section id="home" class="content-section">
-        <h1>Bienvenue sur ton espace étudiant</h1>
-        <p>Découvre les universités, consulte les filières et construis ton avenir avec CampusGuide.</p>
-      </section>
+    <h1>Bienvenue {{ Auth::user()->name }} 👋</h1>
+    <p>Heureux de te revoir sur CampusGuide. Explore, découvre et construis ton avenir !</p>
+
+    <!-- Carte de stats -->
+    <div class="stat-card-container">
+        <div class="stat-card">
+            <h2>{{ $favorites->count() }}</h2>
+            <p>Universités en favori</p>
+        </div>
+    </div>
+
+    <!-- Boutons d'actions rapides -->
+    <div class="quick-actions">
+        <a href="{{ route('universities.search') }}" class="btn-action"><i class="fas fa-school"></i> Trouver une université</a>
+        <a href="{{ route('fields.search') }}" class="btn-action"><i class="fas fa-book"></i> Chercher une filière</a>
+    </div>
+
+    <!-- Bande d'annonce : universités aléatoires -->
+    <h2 style="margin-top: 30px;">Découvre aussi...</h2>
+    <div class="university-banner">
+        @foreach ($randomUniversities as $university)
+            <div class="banner-card">
+                <img src="{{ asset($university->media_url) }}" alt="{{ $university->name }}">
+                <div class="banner-info">
+                    <h3>{{ $university->name }}</h3>
+                    <p>{{ Str::limit($university->description, 80) }}</p>
+                    <a href="{{ route('university.show', $university->id) }}" class="btn-see-more">Voir plus</a>
+                </div>
+            </div>
+        @endforeach
+    </div>
+</section>
+
 
       <section id="favorites" class="content-section" style="display: none;">
         <h1>Mes Universités Favorites</h1>
@@ -53,21 +91,66 @@
         @endif
       </section>
 
-      <!-- Onglets non encore implémentés -->
+      <!-- Onglets non encore implémentés
       <section id="history" class="content-section" style="display: none;">
         <h1>Historique de recherche</h1>
         <p><em>À venir...</em></p>
-      </section>
+      </section> -->
 
-      <section id="profile" class="content-section" style="display: none;">
-        <h1>Mon Profil</h1>
-        <p><em>À venir...</em></p>
-      </section>
+    <section id="profile" class="content-section" style="display: none;">
+  <div class="logo">
+    <img src="{{ asset('assets/logo.png') }}" alt="CampusGuide Logo">
+  </div>
 
-      <section id="settings" class="content-section" style="display: none;">
+  <h1>Mon Profil</h1>
+
+  @if(session('success'))
+    <p style="color:green;">{{ session('success') }}</p>
+  @endif
+
+  <form method="POST" action="{{ route('student.updateProfile') }}">
+    @csrf
+    @method('PUT')
+
+    <div class="input-group">
+      <label>Nom :</label>
+      <input type="text" name="name" value="{{ $user->name }}" required>
+      <i class="fas fa-user"></i>
+    </div>
+
+    <div class="input-group">
+      <label>Email :</label>
+      <input type="email" name="email" value="{{ $user->email }}" required>
+      <i class="fas fa-envelope"></i>
+    </div>
+
+    <div class="input-group">
+      <label>Type de Bac :</label>
+      <input type="text" name="bac_type" value="{{ $user->bac_type }}">
+      <i class="fas fa-graduation-cap"></i>
+    </div>
+
+    <div class="input-group">
+      <label>Matière Préférée :</label>
+      <input type="text" name="favorite_subject" value="{{ $user->favorite_subject }}">
+      <i class="fas fa-book"></i>
+    </div>
+
+    <div class="input-group">
+      <label>Domaine d’Intérêt :</label>
+      <input type="text" name="interest_area" value="{{ $user->interest_area }}">
+      <i class="fas fa-lightbulb"></i>
+    </div>
+
+    <button type="submit">Mettre à jour</button>
+  </form>
+</section>
+
+
+      <!-- <section id="settings" class="content-section" style="display: none;">
         <h1>Paramètres</h1>
         <p><em>À venir...</em></p>
-      </section>
+      </section> -->
     </main>
   </div>
 

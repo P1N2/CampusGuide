@@ -87,12 +87,12 @@
       <h3>Chercher une Filière</h3>
       <p>Search for universities to find out about courses and more.</p>
     </div>
-    <div class="card">
+    <!-- <div class="card">
       <div class="icon">🏠</div>
       <h3>Nouvelles opportunités</h3>
       <p>Search and book open days to help you make the right choice.</p>
       <a href="#">Voir &rarr;</a>
-    </div>
+    </div> -->
   </div>
 </section>
 
