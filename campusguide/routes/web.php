@@ -11,6 +11,7 @@ use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\UniversitySearchController;
 use App\Http\Controllers\FieldSearchController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\SocialiteController;
 
 // Page d'accueil pour les invités
 // Page d'accueil (affiche les universités uniquement si l'utilisateur est connecté)
@@ -58,7 +59,6 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::delete('/user/{id}', [AdminController::class, 'deleteUser'])->name('admin.user.delete');
 });
 
-
 Route::post('/favorites/toggle/{university}', [FavoriteController::class, 'toggle'])->name('favorites.toggle')->middleware('auth');
 Route::middleware(['auth'])->group(function () {
     Route::get('/search-universities', [UniversitySearchController::class, 'index'])->name('universities.search');
@@ -74,19 +74,7 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/student/favorite/{id}', [StudentController::class, 'deleteFavorite'])->name('student.deleteFavorite');
     Route::put('/student/profile', [StudentController::class, 'updateProfile'])->name('student.updateProfile');
 });
-
-// Route::get('/quiz', function () {
-//     return view('auth.quiz');
-// })->name('quiz.step1');
-
-// Route::get('/quiz2', function () {
-//     return view('auth.quiz2');
-// })->name('quiz.step2');
-
-// Route::get('/quiz3', function () {
-//     return view('auth.quiz3');
-// })->name('quiz.step3');
-
+Route::get('/fields/{field}/universities', [FieldController::class, 'universities'])->name('fields.universities');
 Route::middleware('auth')->group(function () {
     Route::get('/quiz', [QuizController::class, 'step1'])->name('quiz.step1');
     Route::post('/quiz', [QuizController::class, 'postStep1']);
@@ -95,3 +83,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/quiz3', [QuizController::class, 'step3'])->name('quiz.step3');
     Route::post('/quiz3', [QuizController::class, 'postStep3']);
 });
+Route::post('/universities/{university}/rate', [UniversityController::class, 'rate'])->name('universities.rate');
+Route::middleware(['auth'])->group(function (){
+    Route::get('/ranking', [UniversityController::class, 'ranking'])->name('universities.ranking');
+});
+// Route::get('/auth/google/redirect', [SocialiteController::class, 'redirectToGoogle'])->name('auth.google');
+// Route::get('/auth/google/callback', [SocialiteController::class, 'handleGoogleCallback']);

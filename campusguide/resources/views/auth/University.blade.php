@@ -10,17 +10,20 @@
 </head>
 <body>
 <header class="navbar">
-  <h1 class="logo"><img src="{{ asset('assets/logo.png') }}" alt="CampusGuideLogo"></h1> 
+  <h1 class="logo"> <a href="/home"><img src="{{ asset('assets/logo.png') }}" alt="CampusGuideLogo"></a></h1> 
   <nav>
     <ul class="nav-links">
       <li><a href="/home">Accueil</a></li>
-      <li><a href="#University">Universités</a></li>
-      <li><a href="#field">Filières</a></li>
+      <li><a href="{{ route('universities.search') }}">Universités</a></li>
+      <li><a href="{{ route('fields.search') }}">Filières</a></li>
+    </ul>
     </ul>
   </nav>
   <div class="profile" id= "profile">
     <img src="{{ asset('assets/login.jpg') }}" alt="Profil">
-    <span class="profile-text">Penouel<br><small>Baccalauréat A</small></span>
+    <span class="profile-text">
+        {{ Auth::user()->name }}<br>
+        <small>{{ Auth::user()->bac_type ?? 'Étudiant' }}</small>
   </div>
   <div class="dropdown-menu" id="dropdownMenu">
       <a href="{{ route('student.dashboard') }}">Mon espace personnel</a>
@@ -38,22 +41,17 @@
       <div class="slide {{ $index === 0 ? 'active' : '' }}">
         <img src="{{ asset($image->image_path) }}" alt="Bannière {{ $index + 1 }}">
         <div class="overlay">
-          <h1>{{ $university->nom }}</h1>
+          <h1>{{ $university->name }}</h1>
+                @php
+                      $isFavorited = auth()->user()->favorites->contains('university_id', $university->id);
+                  @endphp
 
-          @auth
-              @php
-                  $isFavorited = auth()->user()->universities->contains($university->id);
-              @endphp
-
-              <button 
-                  class="favorite-btn {{ $isFavorited ? 'active' : '' }}" 
-                  data-university-id="{{ $university->id }}"
-                  title="{{ $isFavorited ? 'Retirer des favoris' : 'Ajouter aux favoris' }}"
-              >
-                  <i class="fa{{ $isFavorited ? 's' : 'r' }} fa-heart"></i>
-              </button>
-          @endauth
-
+                  <button 
+                      class="favorite-btn {{ $isFavorited ? 'active' : '' }}" 
+                      data-id="{{ $university->id }}" 
+                      title="{{ $isFavorited ? 'Retirer des favoris' : 'Ajouter aux favoris' }}">
+                      <i class="fa{{ $isFavorited ? 's' : 'r' }} fa-heart"></i>
+                  </button>
           <p>{{ $university->slogan ?? 'Excellence, Innovation, Réussite' }}</p>
         </div>
       </div>
@@ -173,13 +171,13 @@
     </li>
     @endif
 
-    @if($university->media_url)
+    <!-- @if($university->media_url)
     <li>
       <i class="fas fa-video"></i>
       <strong>Vidéo de présentation :</strong>
       <a href="{{ $university->media_url }}" target="_blank">Voir la vidéo</a>
     </li>
-    @endif
+    @endif -->
 
     @if($university->application_link)
     <li>
@@ -193,12 +191,25 @@
     <li>
       <i class="fas fa-file-pdf"></i>
       <strong>Brochure PDF :</strong>
-      <a href="{{ asset('storage/'.$university->pdf_url) }}" target="_blank" class="link-button">Télécharger</a>
+      <a href="{{ $university->application_link }}" target="_blank" class="link-button">Télécharger</a>
     </li>
     @endif
 
   </ul>
 </section>
+
+@auth
+<section class="rating-section" style="margin: 40px auto; text-align: center;">
+    <h2>Notez cette université</h2>
+    <div id="starRating" style="font-size: 2.5rem; color: #ccc; cursor: pointer;">
+        @for ($i = 1; $i <= 5; $i++)
+            <i class="fa-star fa{{ $i <= floor($university->note / 2) ? 's' : 'r' }} star" data-value="{{ $i }}"></i>
+        @endfor
+    </div>
+    <div id="ratingMessage" style="margin-top: 10px;"></div>
+</section>
+@endauth
+
 
 
 <!-- Coordonnées + Contact -->
@@ -217,5 +228,53 @@
 </section>
 
 <script src="{{ asset('js/university.js') }}"></script>
+<script>
+document.querySelectorAll('.star').forEach(star => {
+    star.addEventListener('click', function () {
+        const note = this.getAttribute('data-value');
+        const universityId = {{ $university->id }};
+        const stars = document.querySelectorAll('.star');
+
+        // Remplir les étoiles visuellement
+        stars.forEach(s => {
+            if (s.getAttribute('data-value') <= note) {
+                s.classList.remove('far');
+                s.classList.add('fas');
+                s.style.color = 'gold';
+            } else {
+                s.classList.remove('fas');
+                s.classList.add('far');
+                s.style.color = '#ccc';
+            }
+        });
+
+        // Envoyer la note via AJAX
+       fetch(`/universities/${universityId}/rate`, {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+    },
+    body: JSON.stringify({ note })
+})
+.then(async response => {
+    const text = await response.text(); // récupère même si pas JSON
+    try {
+        const data = JSON.parse(text);
+        document.getElementById('ratingMessage').innerText = data.message || 'Note enregistrée !';
+    } catch (e) {
+        console.error("Erreur JSON :", text);
+        document.getElementById('ratingMessage').innerText = "Erreur serveur : " + text;
+    }
+})
+.catch(error => {
+    console.error('Erreur JS:', error);
+    document.getElementById('ratingMessage').innerText = "Erreur lors de l'envoi.";
+});
+
+    });
+});
+</script>
+
 </body>
 </html>

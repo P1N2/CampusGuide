@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inscription</title>
     <link rel="stylesheet" href="{{ asset('css/login.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="icon" type="image/png" href="{{ asset('assets/favicon1.png') }}">
 </head>
 <body>
@@ -25,16 +26,21 @@
                             <input type="email" required name='email' value="{{ old('email') }}">
                             <label>Email</label>
                         </div>
-                        <div class="input-box">
-                            <input type="password" name="password" id="password" required >
-                            <label>password</label>
-                            <!-- <span class="toggle-password" onclick="togglePassword('password', this)">👁️</span> -->
+                        <div class="input-box password-wrapper">
+                                    <input type="password" name="password" id="password" required>
+                                    <label>Mot de passe</label>
+                                    <span class="toggle-password" data-target="password" title="Afficher / masquer le mot de passe">
+                                        <i class="fa-solid fa-eye"></i>
+                                    </span>
                         </div>
-                        <div class="input-box">
-                            <input type="password" name="password_confirmation" required>
-                            <label>Confirm Password</label>
-                            <!-- <span class="toggle-password" onclick="togglePassword('password', this)">👁️</span> cette partie sera ajouter a input oninput="showToggle(this)" -->
-                        </div>
+
+                        <div class="input-box password-wrapper">
+                                    <input type="password" name="password_confirmation" id="password_confirmation" required>
+                                    <label>Confirmer le mot de passe</label>
+                                    <span class="toggle-password" data-target="password_confirmation" title="Afficher / masquer le mot de passe">
+                                        <i class="fa-solid fa-eye"></i>
+                                    </span>
+                         </div>
                             {{-- Affichage des erreurs (facultatif mais conseillé) --}}
                                 @if ($errors->any())
                                     <div class="error-messages" style="color:red;">
@@ -56,25 +62,26 @@
         <img src="{{ asset('assets/login.jpg') }}" alt="chapeau etudiant" class="image">
     </section>
     <script>
-// function togglePassword(id, eyeIcon) {
-//     const input = document.getElementById(id);
-//     if (input.type === 'password') {
-//         input.type = 'text';
-//         eyeIcon.textContent = '🙈'; // change icône
-//     } else {
-//         input.type = 'password';
-//         eyeIcon.textContent = '👁️';
-//     }
-// }
+document.querySelectorAll('.toggle-password').forEach(iconSpan => {
+    iconSpan.addEventListener('click', () => {
+        const targetId = iconSpan.getAttribute('data-target');
+        const input = document.getElementById(targetId);
+        if (!input) return;
 
-// function showToggle(input) {
-//     const icon = input.parentElement.querySelector('.toggle-password');
-//     if (input.value.length > 0) {
-//         icon.style.display = 'block';
-//     } else {
-//         icon.style.display = 'none';
-//     }
-// }
-// </script>
+        const icon = iconSpan.querySelector('i');
+
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
+        } else {
+            input.type = 'password';
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
+        }
+    });
+});
+
+ </script>
 </body>
 </html>

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
+use App\Models\Avis;
 class University extends Model
 {
     protected $table = 'universities'; // Le nom exact de ta table
@@ -18,6 +19,7 @@ class University extends Model
         'media_url',
         'application_link',
         'pdf_url',
+        'slogan',
     ];
     public function images()
 {
@@ -40,6 +42,10 @@ public function fields()
 public function favorites()
 {
     return $this->hasMany(Favorite::class);
+}
+public function avis()
+{
+    return $this->hasMany(Avis::class);
 }
 // public function users()
 // {

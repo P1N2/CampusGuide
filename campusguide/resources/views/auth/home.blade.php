@@ -13,14 +13,27 @@
 
  <!-- Navigation -->
 <header class="navbar">
-  <h1 class="logo"><img src="{{ asset('assets/logo.png') }}" alt="CampusGuideLogo"></h1> 
-  <nav>
-    <ul class="nav-links">
-      <li><a href="/home">Accueil</a></li>
-        <li><a href="{{ route('universities.search') }}">Universités</a></li>
-        <li><a href="{{ route('fields.search') }}">Filières</a></li>
-    </ul>
-  </nav>
+  <h1 class="logo"> <a href="/home"><img src="{{ asset('assets/logo.png') }}" alt="CampusGuideLogo"></a></h1> 
+  
+<nav>
+  <ul class="nav-links">
+    <li>
+      <a href="/home">
+        <i class="fa-solid fa-house"></i> Accueil
+      </a>
+    </li>
+    <li>
+      <a href="{{ route('universities.search') }}">
+        <i class="fa-solid fa-university"></i> Universités
+      </a>
+    </li>
+    <li>
+      <a href="{{ route('fields.search') }}">
+        <i class="fa-solid fa-book"></i> Filières
+      </a>
+    </li>
+  </ul>
+</nav>
   
   <div class="navbar-right">
   <!-- <form action="" class="search-form" method="GET">
@@ -77,22 +90,25 @@
   <!-- Bloc de recherche rapide -->
 <section class="quick-search">
   <div class="cards">
-    <div class="card"  onclick="window.location.href='{{ route('universities.search') }}'">
-      <div class="icon">🔍</div>
+
+    <div class="card" onclick="window.location.href='{{ route('universities.search') }}'">
+      <div class="icon"><i class="fa-solid fa-magnifying-glass"></i></div>
       <h3>Trouver une université</h3>
       <p>Search by subject, course or region to find the right course for you.</p>
     </div>
-    <div class="card"  onclick="window.location.href='{{ route('fields.search') }}'">
-      <div class="icon">📚</div>
+
+    <div class="card" onclick="window.location.href='{{ route('fields.search') }}'">
+      <div class="icon"><i class="fa-solid fa-book-open"></i></div>
       <h3>Chercher une Filière</h3>
       <p>Search for universities to find out about courses and more.</p>
     </div>
-    <!-- <div class="card">
-      <div class="icon">🏠</div>
-      <h3>Nouvelles opportunités</h3>
-      <p>Search and book open days to help you make the right choice.</p>
-      <a href="#">Voir &rarr;</a>
-    </div> -->
+
+    <a href="{{ route('universities.ranking') }}" class="card" style="text-decoration: none; color: inherit;">
+      <div class="icon"><i class="fa-solid fa-trophy"></i></div>
+      <h3>Classement des universités</h3>
+      <p>Découvrez les universités les mieux notées selon les utilisateurs.</p>
+    </a>
+
   </div>
 </section>
 
@@ -137,27 +153,42 @@
   <div class="underline"></div>
   <div class="fields">
     @foreach ($fields->take(3) as $field)
-      <div class="field-card">
+      @php
+  $universities = $field->universities;
+@endphp
+
+<a href="{{ $universities->count() === 1 
+              ? route('university.show', $universities->first()->id) 
+              : route('field.universities', $field->id) 
+          }}" class="field-card">
         <img src="{{ asset($field->image) }}" alt="{{ $field->name }}">
         <h4>{{ $field->name }}</h4>
-        <a href="{{ Auth::check() ? '#' : route('register') }}">SEE COURSE GUIDE &rarr;</a>
-      </div>
+        <!-- <span>SEE COURSE GUIDE &rarr;</span> -->
+      </a>
     @endforeach
   </div>
 
   @if ($fields->count() > 3)
     <div id="extra-fields" class="extra-fields">
       @foreach ($fields->skip(3) as $field)
-        <div class="field-card">
+       @php
+  $universities = $field->universities;
+@endphp
+
+<a href="{{ $universities->count() === 1 
+              ? route('university.show', $universities->first()->id) 
+              : route('field.universities', $field->id) 
+          }}" class="field-card">
           <img src="{{ asset($field->image) }}" alt="{{ $field->name }}">
           <h4>{{ $field->name }}</h4>
-          <a href="{{ Auth::check() ? '#' : route('register') }}">SEE COURSE GUIDE &rarr;</a>
-        </div>
+          <!-- <span>SEE COURSE GUIDE &rarr;</span> -->
+        </a>
       @endforeach
     </div>
     <a href="#field" id="view-all-fields" class="btn-view-all">Voir Tous</a>
   @endif
 </section>
+
 
 
 <!-- Footer -->

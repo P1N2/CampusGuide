@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\University;
+use App\Models\Avis;
 
 class User extends Authenticatable
 {
@@ -54,4 +55,9 @@ class User extends Authenticatable
 {
     return $this->belongsToMany(University::class, 'favorites', 'user_id', 'university_id');
 }
+public function avis()
+{
+    return $this->hasMany(Avis::class);
+}
+
 }

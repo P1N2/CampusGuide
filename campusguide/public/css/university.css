@@ -57,24 +57,28 @@ transform: translateY(3px);
 width: 100%;
 }
 .favorite-btn {
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 2rem;
-  color: gray;
-  transition: transform 0.2s ease, color 0.3s ease;
-  position: relative;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 2rem;
+    color: gray;
+    transition: transform 0.2s ease, color 0.3s ease;
 }
 
 .favorite-btn.active {
-  color: red;
-  animation: pulse 0.4s ease;
+    color: red;
 }
+
+.favorite-btn.pulsing {
+    animation: pulse 0.4s ease;
+}
+
 @keyframes pulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.3); }
-  100% { transform: scale(1); }
+    0% { transform: scale(1); }
+    50% { transform: scale(1.3); }
+    100% { transform: scale(1); }
 }
+
 .profile {
   display: flex;
   align-items: center;

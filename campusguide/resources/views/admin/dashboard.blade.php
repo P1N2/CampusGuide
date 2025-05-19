@@ -176,11 +176,26 @@
             <label>Lien d'inscription</label>
             <input type="url" name="application_link">
           </div>
-
           <div class="form-group">
             <label>Brochure (PDF)</label>
-            <input type="file" name="pdf_url" accept="application/pdf">
+            <input type="url" name="pdf_url" accept="application/pdf">
           </div>
+            <div class="form-group">
+                <label for="adresse">Adresse</label>
+                <input type="text" name="adresse" class="form-control" value="{{ old('adresse') }}">
+            </div>
+
+            <!-- Téléphone -->
+            <div class="form-group">
+                <label for="telephone">Téléphone</label>
+                <input type="text" name="telephone" class="form-control" value="{{ old('telephone') }}">
+            </div>
+
+            <!-- Email -->
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" name="email" class="form-control" value="{{ old('email') }}">
+            </div>
           <div class="form-group">
               <label>Filières proposées</label>
               <div style="display: flex; flex-wrap: wrap; gap: 10px;">

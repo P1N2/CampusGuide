@@ -88,12 +88,10 @@ header{
 .input-box input{
     width: 200%;
     height: 100%;
-    border: 1px solid ;
     outline: none;
     border: none;
     padding-left: 20px;
     color: #000000;
-    border: none;
     border-radius: 7px;
     background-color: #f8f1d4;
     font-weight: 600;
@@ -175,4 +173,26 @@ header{
     100% {
         transform: scale(1) translateX(0);
     }
+}
+.password-wrapper {
+    position: relative;
+}
+
+.password-wrapper input {
+    padding-right: 40px; /* espace pour l'icône */
+}
+
+.toggle-password {
+    position: absolute;
+    top: 50%;
+    right: -90%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: gray;
+    font-size: 1.2rem;
+    transition: color 0.3s ease;
+}
+
+.toggle-password:hover {
+    color: black;
 }

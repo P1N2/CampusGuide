@@ -40,7 +40,7 @@ class LoginController extends Controller
 
         // Si échec, retourne une erreur
         return back()->withErrors([
-            'email' => 'Les identifiants sont incorrects.',
+            'email' => 'mot de passe ou email incorrect. Reessayez !',
         ])->onlyInput('email');
     }
 }

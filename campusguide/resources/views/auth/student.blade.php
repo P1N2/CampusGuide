@@ -66,30 +66,36 @@
 </section>
 
 
-      <section id="favorites" class="content-section" style="display: none;">
-        <h1>Mes Universités Favorites</h1>
+    <section id="favorites" class="content-section" style="display: none;">
+  <h1 style="text-align: center; font-size: 2rem; margin-bottom: 1.5rem;">🎓 Mes Universités Favorites</h1>
 
-        @if ($favorites->isEmpty())
-          <p>Tu n'as pas encore ajouté d'université en favori.</p>
-        @else
-          <ul>
-            @foreach ($favorites as $favorite)
-              <li>
-                <a href="{{ route('university.show', $favorite->university->id) }}">
-                  {{ $favorite->university->name }}
-                </a>
-                <form method="POST" action="{{ route('student.deleteFavorite', $favorite->university->id) }}" style="display:inline;">
-                  @csrf
-                  @method('DELETE')
-                  <button type="submit" style="background:none; border:none; color:red; cursor:pointer;" title="Supprimer des favoris">
-                    <i class="fas fa-trash"></i>
-                  </button>
-                </form>
-              </li>
-            @endforeach
-          </ul>
-        @endif
-      </section>
+  @if ($favorites->isEmpty())
+    <p style="text-align: center; font-size: 1.1rem; color: gray;">Tu n'as pas encore ajouté d'université en favori.</p>
+  @else
+    <div class="favorite-cards-container">
+      @foreach ($favorites as $favorite)
+        <div class="favorite-card">
+          <div class="favorite-info">
+            <h3>{{ $favorite->university->name }}</h3>
+            <p>{{ Str::limit($favorite->university->description, 100) }}</p>
+          </div>
+          <div class="favorite-actions">
+            <a href="{{ route('university.show', $favorite->university->id) }}" class="view-link" title="Voir l'université">
+              <i class="fa-solid fa-eye"></i>
+            </a>
+            <form method="POST" action="{{ route('student.deleteFavorite', $favorite->university->id) }}">
+              @csrf
+              @method('DELETE')
+              <button type="submit" class="delete-btn" title="Supprimer des favoris">
+                <i class="fa-solid fa-trash"></i>
+              </button>
+            </form>
+          </div>
+        </div>
+      @endforeach
+    </div>
+  @endif
+</section>
 
       <!-- Onglets non encore implémentés
       <section id="history" class="content-section" style="display: none;">

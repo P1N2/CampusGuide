@@ -44,61 +44,43 @@ document.getElementById('nextBtn').addEventListener('click', () => {
     behavior: 'smooth'
   });
 });
-document.querySelectorAll('.favorite-icon').forEach(icon => {
-  icon.addEventListener('click', function () {
-    const universityId = this.getAttribute('data-id');
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.favorite-btn').forEach(button => {
+        button.addEventListener('click', async function (e) {
+            e.preventDefault();
 
-    fetch('{{ route("favoris.toggle") }}', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-      },
-      body: JSON.stringify({ university_id: universityId })
-    })
-    .then(res => res.json())
-    .then(data => {
-      if (data.status === 'added') {
-        this.classList.add('active');
-      } else {
-        this.classList.remove('active');
-      }
-    });
-  });
-});
-document.querySelectorAll('.favorite-btn').forEach(button => {
-    button.addEventListener('click', function (e) {
-        e.preventDefault();
-        const universityId = this.dataset.universityId;
+            const universityId = this.dataset.id;
+            const icon = this.querySelector('i');
+            const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-        fetch(`/favorites/toggle/${universityId}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-            },
-        })
-        .then(() => {
-            // Toggle tous les boutons liés à la même université
-            document.querySelectorAll(`.favorite-btn[data-university-id="${universityId}"]`).forEach(btn => {
-                btn.classList.toggle('active');
-                
-                // Changer l’icône (fa-heart)
-                const icon = btn.querySelector('i');
-                if (btn.classList.contains('active')) {
-                    icon.classList.remove('far');
-                    icon.classList.add('fas');
-                    icon.style.color = 'red';
-                } else {
-                    icon.classList.remove('fas');
-                    icon.classList.add('far');
-                    icon.style.color = 'gray';
+            try {
+                const response = await fetch(`/favorites/toggle/${universityId}`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': token
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Erreur lors de la requête');
                 }
 
-                // Ajouter l’animation pulse
-                icon.classList.add('pulse');
-                setTimeout(() => icon.classList.remove('pulse'), 500);
-            });
+                const data = await response.json();
+
+                this.classList.toggle('active');
+                this.classList.add('pulsing');
+
+                icon.classList.toggle('fas');
+                icon.classList.toggle('far');
+
+                setTimeout(() => {
+                    this.classList.remove('pulsing');
+                }, 400);
+
+            } catch (error) {
+                console.error('Erreur AJAX:', error);
+                alert("Une erreur s'est produite. Veuillez réessayer.");
+            }
         });
     });
 });

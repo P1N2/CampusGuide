@@ -16,6 +16,8 @@ class Favorite extends Model
     protected $fillable = ['user_id', 'university_id'];
     
     public $timestamps = false;
+      public $incrementing = false;
+    protected $primaryKey = null;
     // Définir les relations si besoin
    public function user()
 {
