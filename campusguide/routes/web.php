@@ -12,6 +12,9 @@ use App\Http\Controllers\UniversitySearchController;
 use App\Http\Controllers\FieldSearchController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SocialiteController;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use App\Models\User;
 
 // Page d'accueil pour les invités
 // Page d'accueil (affiche les universités uniquement si l'utilisateur est connecté)
@@ -89,3 +92,40 @@ Route::middleware(['auth'])->group(function (){
 });
 // Route::get('/auth/google/redirect', [SocialiteController::class, 'redirectToGoogle'])->name('auth.google');
 // Route::get('/auth/google/callback', [SocialiteController::class, 'handleGoogleCallback']);
+
+Route::get('/password/reset', function () {
+    // Formulaire pour saisir l'email
+    return view('auth.passwords.email');
+})->name('password.request');
+
+Route::post('/password/reset', function (Request $request) {
+    // Pas de validation email ici, juste redirection vers formulaire changement mot de passe
+    // Tu peux récupérer l'email pour l'utiliser dans la vue de changement si tu veux
+    $email = $request->input('email');
+    return redirect()->route('password.change', ['email' => $email]);
+})->name('password.email');
+
+Route::get('/password/change', function (Request $request) {
+    // Formulaire pour changer le mot de passe
+    // On récupère l'email passé en paramètre
+    $email = $request->query('email');
+    return view('auth.passwords.reset', ['email' => $email]);
+})->name('password.change');
+
+Route::post('/password/change', function (Request $request) {
+    $request->validate([
+        'email' => 'required|email',
+        'password' => 'required|min:6|confirmed',
+    ]);
+
+    $user = User::where('email', $request->email)->first();
+
+    if (!$user) {
+        return back()->withErrors(['email' => 'Utilisateur non trouvé.']);
+    }
+
+    $user->password = Hash::make($request->password);
+    $user->save();
+
+    return redirect('login')->with('statu', 'Mot de passe changé avec succès !');
+})->name('password.update');

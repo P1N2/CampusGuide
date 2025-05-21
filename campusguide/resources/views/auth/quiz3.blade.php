@@ -22,11 +22,35 @@
     @csrf
     <h2>Quel est ton domaine d’intérêt principal ?</h2>
 
-    <label><input type="radio" name="interest_domain" value="Sciences"> Sciences</label><br>
-    <label><input type="radio" name="interest_domain" value="Littérature"> Littérature</label><br>
-    <label><input type="radio" name="interest_domain" value="Technologie"> Technologie</label><br>
-    <label><input type="radio" name="interest_domain" value="Économie"> Économie</label><br>
-    <label><input type="radio" name="interest_domain" value="Art"> Art</label><br>
+    <label>
+        <input type="radio" name="interest_domain" value="Sciences">
+        <span class="checkmark"></span>
+        Sciences
+    </label><br>
+
+    <label>
+        <input type="radio" name="interest_domain" value="Littérature">
+        <span class="checkmark"></span>
+        Littérature
+    </label><br>
+
+    <label>
+        <input type="radio" name="interest_domain" value="Technologie">
+        <span class="checkmark"></span>
+        Technologie
+    </label><br>
+
+    <label>
+        <input type="radio" name="interest_domain" value="Économie">
+        <span class="checkmark"></span>
+        Économie
+    </label><br>
+
+    <label>
+        <input type="radio" name="interest_domain" value="Art">
+        <span class="checkmark"></span>
+        Art
+    </label><br>
 
     <button type="submit">Terminer</button>
 </form>

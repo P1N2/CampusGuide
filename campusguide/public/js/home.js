@@ -88,25 +88,15 @@ setInterval(nextSlide, 5000); // Défilement automatique toutes les 5s
       dropdown.classList.remove('show');
     }
   });
-// document.querySelectorAll('.favorite-icon').forEach(icon => {
-//   icon.addEventListener('click', function () {
-//     const universityId = this.getAttribute('data-id');
+document.addEventListener("DOMContentLoaded", function () {
+  const burger = document.querySelector(".burger");
+  const navLinks = document.querySelector(".nav-links");
 
-//     fetch(favorisToggleUrl, {
-//       method: 'POST',
-//       headers: {
-//         'Content-Type': 'application/json',
-//         'X-CSRF-TOKEN': csrfToken,
-//       },
-//       body: JSON.stringify({ university_id: universityId })
-//     })
-//     .then(res => res.json())
-//     .then(data => {
-//       if (data.status === 'added') {
-//         this.classList.add('active');
-//       } else {
-//         this.classList.remove('active');
-//       }
-//     });
-//   });
-// });
+  if (burger && navLinks) {
+    burger.addEventListener("click", function () {
+      navLinks.classList.toggle("active");
+      burger.classList.toggle("active"); // pour animer la croix
+    });
+  }
+});
+

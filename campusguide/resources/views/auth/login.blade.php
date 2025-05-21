@@ -15,6 +15,12 @@
     <section class="container">
         <div class="bloc bloc-left bloc-1">
             <h2>Laissez CampusGuide <br>vous guidez vers votre Avenir</h2>
+
+            @if(session('statu'))
+    <div style="color:green; margin-bottom: 15px;">
+        {{ session('statu') }}
+    </div>
+@endif
             <div class="bloc-txt-left">
                 <form action="{{ route('login.submit') }}" method="post">
                     @csrf
@@ -31,7 +37,7 @@
                         </div>
                     <div class="remember-forgot">
                         <label>Don't have Account? <a href="/register">Register</a></label>
-                        <a href="#" class="Forgot">Forgot your Password?</a>
+                        <a href="{{ route('password.request') }}" class="Forgot">Forgot your Password?</a>
                     </div>
                     @if ($errors->any())
                                     <div class="error-messages" style="color:white;background-color:rgb(161, 12, 12);; padding: 10px 10px; width: 200%;height: 100%;border-radius: 7px;">

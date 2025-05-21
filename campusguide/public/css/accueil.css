@@ -15,7 +15,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px 30px;
+  padding: 10px;
   background-color: white;
   border-bottom: 1px solid #ddd;
   box-sizing: border-box;
@@ -192,40 +192,6 @@
 .auth-buttons a:hover {
   background-color: #36384E;
 }
-
-/* Responsive design */
-@media (max-width: 768px) {
-  .navbar {
-      flex-direction: column;
-      align-items: flex-start;
-      padding: 10px;
-  }
-
-  .nav-links {
-      flex-direction: column;
-      gap: 15px;
-  }
-
-  .search-form {
-      flex-direction: column;
-      gap: 10px;
-  }
-
-  .search-form input[type="text"], .search-form button {
-      width: 100%;
-  }
-
-  .auth-buttons {
-      flex-direction: column;
-      gap: 10px;
-  }
-
-  .profile {
-      flex-direction: column;
-      align-items: flex-start;
-  }
-}
-  
   /* Hero Section */
   .hero {
     background: url('../assets/uni1.jpg') center/cover no-repeat;
@@ -554,4 +520,164 @@
   color: #aaa;
   border-top: 1px solid #333;
   padding-top: 20px;
+}
+@media (max-width: 768px) {
+  .hero {
+    height: 300px;
+    padding: 20px;
+  }
+
+  .hero h1 {
+    font-size: 1.8rem;
+  }
+
+  .intro {
+    padding: 40px 10px;
+  }
+
+  .cards {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .card {
+    width: 90%;
+  }
+
+  .universities,
+  .fields {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .university-card,
+  .field-card {
+    width: 90%;
+  }
+
+  .quick-search {
+    padding: 40px 10px;
+  }
+
+  .footer-content {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .footer-desc {
+    max-width: 100%;
+  }
+
+  .footer-links,
+  .footer-social {
+    align-items: center;
+  }
+
+  .dropdown-menu {
+    right: 10px;
+  }
+}
+/* Menu burger */
+.burger {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  gap: 5px;
+}
+
+.burger div {
+  width: 25px;
+  height: 3px;
+  background-color: #36384E;
+  transition: all 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  padding: 10px 20px;
+}
+
+/* Logo à gauche */
+.logo {
+  order: 3;
+  flex: 0 0 auto;
+  text-align: left;
+}
+
+/* Burger au centre */
+.burger {
+  order: 2;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+}
+
+/* Profil à droite */
+.profile {
+  order: 1;
+  flex: 0 0 auto;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    gap: 10px;
+    order: 4;
+    margin-top: 10px;
+  }
+
+  .nav-links.active {
+    display: flex;
+  }
+/* 
+  .profile {
+    order: 3;
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  } */
+
+  .profile img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+  }
+
+  .profile-text {
+    display: none; /* cacher texte pour libérer place */
+  }
+
+  .search-form {
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    order: 5;
+    margin-top: 10px;
+  }
+
+  .search-form input[type="text"],
+  .search-form button {
+    width: 100%;
+  }
+
+  .auth-buttons {
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    order: 6;
+  }
+
+  .dropdown-menu {
+    right: 10px;
+  }
 }

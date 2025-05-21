@@ -11,7 +11,7 @@
             padding: 20px;
         }
         .search-bar {
-            margin-top: 10%;
+            margin-top: 120px;
             text-align: center;
         }
         input[type="text"] {
@@ -151,7 +151,7 @@
   top: 70px;
   right: 50px;
   background: rgba(255, 255, 255, 0.616);
-  -webkit-backdrop-filter: blur(10px);
+ -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   border-radius: 12px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
@@ -190,6 +190,128 @@
 .dropdown-menu button:hover {
   color: #36384E;
 }
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px 15px;
+  }
+
+  .logo {
+    width: 100%;
+    text-align: left;
+    margin-bottom: 10px;
+  }
+
+  .logo img {
+    max-width: 120px;
+  }
+
+  .nav-links {
+    flex-direction: column;
+    width: 100%;
+    gap: 10px;
+  }
+
+  .nav-links a {
+    font-size: 14px;
+    padding: 5px 0;
+  }
+
+  .navbar-right {
+    width: 100%;
+    justify-content: space-between;
+    margin-top: 10px;
+  }
+
+  .profile {
+    flex: 1;
+    justify-content: flex-end;
+  }
+
+  .search-bar {
+    margin-top: 150px; /* pour éviter que la recherche soit cachée sous la nav fixe */
+    padding: 0 10px;
+  }
+
+  input[type="text"] {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  button {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .university-list {
+    padding: 0 10px;
+  }
+
+  .university-item {
+    padding: 12px 10px;
+  }
+
+  .dropdown-menu {
+    right: 15px;
+    top: 120px;
+  }
+}
+.burger {
+  display: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #36384E;
+}
+
+@media (max-width: 768px) {
+  .burger {
+    display: block;
+    margin-left: auto;
+  }
+
+  nav {
+    display: none;
+    width: 100%;
+  }
+
+  nav.active {
+    display: block;
+    margin-top: 10px;
+  }
+
+  .nav-links {
+    flex-direction: column;
+    gap: 15px;
+    padding: 10px 0;
+  }
+
+  .search-bar {
+    margin-top: 180px; /* ↑ suffisant pour navbar fixe + liens */
+    padding: 0 10px;
+  }
+
+  input[type="text"] {
+    width: 100%;
+  }
+
+  button {
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  .navbar-right {
+    flex-direction: column;
+    align-items: flex-end;
+    margin-top: 10px;
+  }
+
+  .dropdown-menu {
+    right: 20px;
+    top: 200px;
+  }
+}
+
     </style>
 
 </head>
@@ -197,7 +319,9 @@
   <!-- Navigation -->
 <header class="navbar">
   <h1 class="logo"> <a href="/home"><img src="{{ asset('assets/logo.png') }}" alt="CampusGuideLogo"></a></h1> 
-  
+  <div class="burger" id="burger">
+  <i class="fa-solid fa-bars"></i>
+</div>
 <nav>
   <ul class="nav-links">
     <li>
@@ -310,6 +434,14 @@
       dropdown.classList.remove('show');
     }
   });
+  // Menu burger
+const burger = document.getElementById('burger');
+const nav = document.querySelector('nav');
+
+burger.addEventListener('click', () => {
+  nav.classList.toggle('active');
+});
+
 </script>
 </body>
 </html>

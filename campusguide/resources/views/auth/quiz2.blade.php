@@ -22,11 +22,35 @@
     @csrf
     <h2>Quelle est ta matière préférée ?</h2>
 
-    <label><input type="radio" name="favorite_subject" value="Maths"> Maths</label><br>
-    <label><input type="radio" name="favorite_subject" value="Physique"> Physique</label><br>
-    <label><input type="radio" name="favorite_subject" value="SVT"> SVT</label><br>
-    <label><input type="radio" name="favorite_subject" value="Philosophie"> Philosophie</label><br>
-    <label><input type="radio" name="favorite_subject" value="Économie"> Économie</label><br>
+    <label>
+        <input type="radio" name="favorite_subject" value="Maths">
+        <span class="checkmark"></span>
+        Maths
+    </label><br>
+
+    <label>
+        <input type="radio" name="favorite_subject" value="Physique">
+        <span class="checkmark"></span>
+        Physique
+    </label><br>
+
+    <label>
+        <input type="radio" name="favorite_subject" value="SVT">
+        <span class="checkmark"></span>
+        SVT
+    </label><br>
+
+    <label>
+        <input type="radio" name="favorite_subject" value="Philosophie">
+        <span class="checkmark"></span>
+        Philosophie
+    </label><br>
+
+    <label>
+        <input type="radio" name="favorite_subject" value="Économie">
+        <span class="checkmark"></span>
+        Économie
+    </label><br>
 
     <button type="submit">Suivant</button>
 </form>

@@ -29,9 +29,23 @@
     @csrf
     <h2>Quel est ton type de bac ?</h2>
 
-    <label><input type="radio" name="bac_type" value="Scientifique"> Scientifique</label><br>
-    <label><input type="radio" name="bac_type" value="Littéraire"> Littéraire</label><br>
-    <label><input type="radio" name="bac_type" value="Technique"> Technique</label><br>
+    <label>
+        <input type="radio" name="bac_type" value="Scientifique">
+        <span class="checkmark"></span>
+        Scientifique
+    </label><br>
+
+    <label>
+        <input type="radio" name="bac_type" value="Littéraire">
+        <span class="checkmark"></span>
+        Littéraire
+    </label><br>
+
+    <label>
+        <input type="radio" name="bac_type" value="Technique">
+        <span class="checkmark"></span>
+        Technique
+    </label><br>
 
     <button type="submit">Suivant</button>
 </form>

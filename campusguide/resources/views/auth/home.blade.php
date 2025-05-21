@@ -16,6 +16,13 @@
   <h1 class="logo"> <a href="/home"><img src="{{ asset('assets/logo.png') }}" alt="CampusGuideLogo"></a></h1> 
   
 <nav>
+  
+  <!-- Le menu burger (mobile uniquement) -->
+  <div class="burger">
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
   <ul class="nav-links">
     <li>
       <a href="/home">
