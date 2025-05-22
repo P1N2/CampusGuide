@@ -24,9 +24,10 @@ class UniversityController extends Controller
     // On charge les images associées sans modifier l'objet principal
     $bannerImages = $university->bannerImages;
     $galleryImages = $university->galleryImages;
+    $logo = $university->logo;
     $fields = $university->fields;
 
-    return view('auth.University', compact('university', 'bannerImages', 'galleryImages', 'fields'));
+    return view('auth.University', compact('university', 'bannerImages', 'galleryImages', 'fields', 'logo'));
 
 }
     // (optionnel plus tard) Formulaire d’ajout d’université

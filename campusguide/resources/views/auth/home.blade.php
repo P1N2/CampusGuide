@@ -12,11 +12,11 @@
 <body>
 
  <!-- Navigation -->
-<header class="navbar">
+<header class="navbar" id="navbar">
   <h1 class="logo"> <a href="/home"><img src="{{ asset('assets/logo.png') }}" alt="CampusGuideLogo"></a></h1> 
   
 <nav>
-  
+ @auth 
   <!-- Le menu burger (mobile uniquement) -->
   <div class="burger">
     <div></div>
@@ -41,13 +41,8 @@
     </li>
   </ul>
 </nav>
-  
+  @endauth
   <div class="navbar-right">
-  <!-- <form action="" class="search-form" method="GET">
-    <input type="text" name="query" placeholder="Rechercher..." required>
-    <button type="submit">Rechercher</button>
-  </form> -->
-
   @auth
     <div class="profile" id="profile">
       <img src="{{ Auth::user()->profile_image ? asset('storage/' . Auth::user()->profile_image) : asset('assets/login.jpg') }}" alt="Profil">

@@ -3,6 +3,7 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Classement des Universités - CampusGuide</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="icon" type="image/png" href="{{ asset('assets/favicon1.png') }}">
@@ -129,6 +130,56 @@
       background-color:rgb(255, 255, 255);
       color: #1f2937;
     }
+    .university-logo {
+    width: 45px;
+    height: 45px;
+    object-fit: contain;
+    border-radius: 6px;
+}
+    /* Responsive styles */
+    @media (max-width: 768px) {
+       .university-logo {
+        width: 35px;
+        height: 35px;
+    }
+      h1 {
+        font-size: 1.8rem;
+      }
+
+      .ranking-list {
+        padding: 10px;
+      }
+
+      .university-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+
+      .rank-number {
+        font-size: 1.4rem;
+        margin-right: 0;
+        width: auto;
+      }
+
+      .university-name {
+        font-size: 1.1rem;
+      }
+
+      .university-slogan {
+        font-size: 0.85rem;
+      }
+
+      .note {
+        font-size: 0.9rem;
+        margin-top: 5px;
+      }
+
+      .back-button {
+        font-size: 0.95rem;
+        padding: 8px 16px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -143,7 +194,7 @@
         <div class="rank-number">#{{ $index + 1 }}</div>
         <div class="university-details">
           <div class="university-name">
-            <i class="fas fa-university"></i> {{ $university->name }}
+            <img  src="{{ asset(optional($university->logo)->image_path ?? 'assets/login.jpg') }}"  alt="Logo {{ $university->name }}"class="university-logo">
           </div>
           <div class="university-slogan">
             {{ $university->slogan ?? 'Excellence, Innovation, Réussite' }}

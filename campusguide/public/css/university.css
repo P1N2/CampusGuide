@@ -6,12 +6,13 @@ body {
   color: #333;
 }
 
+ /* Navigation */
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 5px 50px;
-  background: white;
+  padding: 10px;
+  background-color: white;
   border-bottom: 1px solid #ddd;
   box-sizing: border-box;
   position: fixed;
@@ -19,42 +20,123 @@ body {
   left: 0;
   width: 100%;
   z-index: 1000;
+  transition: top 0.7s ease-in-out;
 }
-.logo img{
+.navbar.hidden {
+  top: -100px; /* Cache la navbar */
+}
+
+.logo img {
   max-width: 150px; /* Gère la taille du logo */
   height: auto;
 }
+
+/* Navigation links */
 .nav-links {
-list-style: none;
-display: flex;
-gap: 30px;
+  list-style: none;
+  display: flex;
+  gap: 30px;
 }
 
 .nav-links a {
-position: relative;
-text-decoration: none;
-color: black;
-font-weight: 500;
-transition: all 0.3s ease;
+  position: relative;
+  text-decoration: none;
+  color: black;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  font-size: 16px;
 }
+
 .nav-links a::after {
-content: '';
-position: absolute;
-bottom: -5px;
-left: 0;
-width: 0%;
-height: 3px;
-background-color: #E5B300;
-transition: width 0.3s ease;
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 0%;
+  height: 3px;
+  background-color: #E5B300;
+  transition: width 0.3s ease;
 }
 
 .nav-links a:hover {
-color: #E5B300;
-transform: translateY(3px);
+  color: #E5B300;
+  transform: translateY(3px);
 }
 
 .nav-links a:hover::after {
-width: 100%;
+  width: 100%;
+}
+
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+
+/* Amélioration pour le profil */
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.profile img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.profile-text {
+  font-size: 12px;
+  line-height: 1.2;
+  text-align: right;
+}
+/* Dropdown menu sous le profil */
+.dropdown-menu {
+  position: absolute;
+  top: 70px;
+  right: 50px;
+  background: rgba(255, 255, 255, 0.616);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 10px;
+  min-width: 180px;
+  opacity: 0;
+  transform: translateY(-10px);
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  z-index: 1000;
+}
+
+.dropdown-menu.show {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.dropdown-menu a,
+.dropdown-menu button {
+  padding: 10px 14px;
+  text-align: left;
+  text-decoration: none;
+  color:#E5B300;
+  font-size: 14px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  border-radius: 8px;
+  transition: background 0.3s ease;
+}
+
+.dropdown-menu a:hover,
+.dropdown-menu button:hover {
+  color: #36384E;
 }
 .favorite-btn {
     background: none;
@@ -79,26 +161,11 @@ width: 100%;
     100% { transform: scale(1); }
 }
 
-.profile {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  cursor: pointer;
-}
-.profile img {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-}
-.profile-text {
-  font-size: 12px;
-}
-
 /* Carousel */
 .banner {
   position: relative;
   overflow: hidden; 
-  height: 850px;
+  height: 900px;
 }
 .carousel {
   display: flex;
@@ -116,53 +183,18 @@ width: 100%;
 }
 .slide img {
   width: 100%;
-  height: 850px;
+  height: 900px;
   object-fit: cover;
+  object-position: center top;
 }
 .overlay {
   position: absolute;
   bottom: 20px;
   left: 30px;
   color: white;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.322);
   padding: 1rem;
   border-radius: 10px;
-}
-/* Dropdown menu sous le profil */
-.dropdown-menu {
-  position: absolute;
-  top: 70px;
-  right: 50px;
-  border: 1px solid #ccc;
-  background: rgba(255, 255, 255, 0.616);
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
-  border-radius: 12px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-  display: none;
-  flex-direction: column;
-  padding: 10px;
-  z-index: 1000;
-  min-width: 180px;
-  cursor: pointer;
-}
-
-.dropdown-menu a,
-.dropdown-menu button {
-  padding: 8px 12px;
-  text-align: left;
-  text-decoration: none;
-  color: #E5B300;
-  font-size: 14px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  width: 100%;
-}
-
-.dropdown-menu a:hover,
-.dropdown-menu button:hover {
-  color: #36384E;
 }
 
 /* Actions */
@@ -532,4 +564,176 @@ width: 100%;
   100% {
     background-color: #ffe680;
   }
+}
+/* Menu burger */
+.burger {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  gap: 5px;
+}
+
+.burger div {
+  width: 25px;
+  height: 3px;
+  background-color: #36384E;
+  transition: all 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  padding: 10px 20px;
+}
+/* Logo à gauche */
+.logo {
+  order: 3;
+  flex: 0 0 auto;
+  text-align: left;
+  width: 125px;
+}
+
+/* Burger au centre */
+.burger {
+  order: 2;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+}
+
+/* Profil à droite */
+.profile {
+  order: 1;
+  flex: 0 0 auto;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    gap: 10px;
+    order: 4;
+    margin-top: 10px;
+  }
+
+  .nav-links.active {
+    display: flex;
+  }
+
+  .profile img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+  }
+
+  .profile-text {
+  font-size: 12px;
+  line-height: 1.2;
+  text-align: right;
+}
+  .dropdown-menu {
+    right: 10px;
+  }
+  
+  .banner, .slide img {
+    height: 400px;
+  }
+
+  .overlay {
+    font-size: 0.9rem;
+    padding: 0.5rem;
+    bottom: 10px;
+    left: 10px;
+  }
+
+  /* Présentation université : texte et padding réduits */
+  .university-presentation {
+    padding: 30px 10px;
+  }
+  .university-presentation h2 {
+    font-size: 1.5rem;
+  }
+  .presentation-text {
+    font-size: 1rem;
+    max-width: 90%;
+  }
+
+  /* History container empilé en colonne */
+  .history-container {
+    flex-direction: column;
+    gap: 20px;
+  }
+  .history-image img {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    margin: 0 auto;
+  }
+  .history-text {
+    max-width: 100%;
+    text-align: center;
+  }
+  .history-text h2 {
+    font-size: 1.5rem;
+  }
+  .history-text p {
+    font-size: 1rem;
+  }
+
+  /* Info clés empilés */
+  .info-cle {
+    flex-direction: column;
+    gap: 15px;
+    padding: 1rem;
+  }
+  .info-box {
+    width: 100%;
+  }
+
+  /* Galerie : images plus petites et espacées */
+  .gallery-preview img {
+    width: 120px;
+    margin: 0 5px;
+  }
+
+  /* Field carousel : affiche moins de cartes et réduit la largeur */
+  .field-carousel {
+    padding: 1rem 10px;
+    gap: 15px;
+  }
+  .field-card {
+    width: 180px;
+  }
+
+  /* Contact section : empilé et centré */
+  .contact-container {
+    flex-direction: column;
+    text-align: center;
+  }
+  .contact-container img {
+    width: 80%;
+    max-width: 250px;
+  }
+  .contact-info {
+    max-width: 100%;
+  }
+  
+  /* Boutons de navigation du carousel plus petits */
+  .carousel-btn {
+    padding: 7px;
+  }
+
+  /* Ajuste taille des textes généraux */
+  body, p, li {
+    font-size: 14px;
+  }
+
 }

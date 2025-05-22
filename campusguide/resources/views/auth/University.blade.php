@@ -3,35 +3,64 @@
 <head>
   <meta charset="UTF-8">
   <meta name="csrf-token" content="{{ csrf_token() }}">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{ $university->nom }} - CampusGuide</title>
   <link rel="stylesheet" href="{{ asset('css/university.css') }}">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="icon" type="image/png" href="{{ asset('assets/favicon1.png') }}">
 </head>
 <body>
-<header class="navbar">
+<!-- Navigation -->
+<header class="navbar" id="navbar">
   <h1 class="logo"> <a href="/home"><img src="{{ asset('assets/logo.png') }}" alt="CampusGuideLogo"></a></h1> 
-  <nav>
-    <ul class="nav-links">
-      <li><a href="/home">Accueil</a></li>
-      <li><a href="{{ route('universities.search') }}">Universités</a></li>
-      <li><a href="{{ route('fields.search') }}">Filières</a></li>
-    </ul>
-    </ul>
-  </nav>
-  <div class="profile" id= "profile">
-    <img src="{{ asset('assets/login.jpg') }}" alt="Profil">
-    <span class="profile-text">
+  
+<nav>
+ @auth 
+  <!-- Le menu burger (mobile uniquement) -->
+  <div class="burger">
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+  <ul class="nav-links">
+    <li>
+      <a href="/home">
+        <i class="fa-solid fa-house"></i> Accueil
+      </a>
+    </li>
+    <li>
+      <a href="{{ route('universities.search') }}">
+        <i class="fa-solid fa-university"></i> Universités
+      </a>
+    </li>
+    <li>
+      <a href="{{ route('fields.search') }}">
+        <i class="fa-solid fa-book"></i> Filières
+      </a>
+    </li>
+  </ul>
+</nav>
+  @endauth
+  <div class="navbar-right">
+  @auth
+    <div class="profile" id="profile">
+      <img src="{{ Auth::user()->profile_image ? asset('storage/' . Auth::user()->profile_image) : asset('assets/login.jpg') }}" alt="Profil">
+      <span class="profile-text">
         {{ Auth::user()->name }}<br>
         <small>{{ Auth::user()->bac_type ?? 'Étudiant' }}</small>
-  </div>
-  <div class="dropdown-menu" id="dropdownMenu">
+      </span>
+    </div>
+
+    <div class="dropdown-menu" id="dropdownMenu">
       <a href="{{ route('student.dashboard') }}">Mon espace personnel</a>
       <form method="POST" action="{{ route('logout') }}">
         @csrf
         <button type="submit">Se déconnecter</button>
       </form>
     </div>
+  @endauth
+</div>
+
 </header>
 
 <!-- Bannière défilante -->
@@ -42,16 +71,6 @@
         <img src="{{ asset($image->image_path) }}" alt="Bannière {{ $index + 1 }}">
         <div class="overlay">
           <h1>{{ $university->name }}</h1>
-                @php
-                      $isFavorited = auth()->user()->favorites->contains('university_id', $university->id);
-                  @endphp
-
-                  <button 
-                      class="favorite-btn {{ $isFavorited ? 'active' : '' }}" 
-                      data-id="{{ $university->id }}" 
-                      title="{{ $isFavorited ? 'Retirer des favoris' : 'Ajouter aux favoris' }}">
-                      <i class="fa{{ $isFavorited ? 's' : 'r' }} fa-heart"></i>
-                  </button>
           <p>{{ $university->slogan ?? 'Excellence, Innovation, Réussite' }}</p>
         </div>
       </div>
@@ -60,8 +79,6 @@
 </section>
 
 <!-- Présentation -->
-<!-- Présentation + Historique -->
-<!-- Présentation simple -->
 <section class="university-presentation animated-section">
   <h2>Présentation de l’Université</h2>
   <p class="presentation-text">
@@ -73,13 +90,24 @@
 <section class="university-history-visual animated-section">
   <div class="history-container">
     <div class="history-image">
-      <img src="{{ asset('assets/login.jpg') }}" alt="Logo Université">
+      <!-- <img src="{{ asset('assets/ADU/logo.png') }}" alt="Logo Université"> -->
+      <img src="{{ asset(optional($university->logo)->image_path ?? 'assets/login.jpg') }}"alt="Logo {{ $university->name }}" >
     </div>
     <div class="history-text">
       <h2>Historique</h2>
       <p>
         {{ $university->history ?? 'L’historique de l’université n’est pas encore disponible.' }}
       </p>
+      @php
+                      $isFavorited = auth()->user()->favorites->contains('university_id', $university->id);
+                  @endphp
+                    <h2>Ajouter en Favoris</h2>
+                  <button 
+                      class="favorite-btn {{ $isFavorited ? 'active' : '' }}" 
+                      data-id="{{ $university->id }}" 
+                      title="{{ $isFavorited ? 'Retirer des favoris' : 'Ajouter aux favoris' }}">
+                      <i class="fa{{ $isFavorited ? 's' : 'r' }} fa-heart"></i>
+                  </button>
     </div>
   </div>
 </section>
@@ -215,7 +243,7 @@
 <!-- Coordonnées + Contact -->
 <section class="contact-section">
   <div class="contact-container">
-    <img src="{{ asset('assets/login.jpg') }}" alt="Campus">
+    <img src="{{ asset('assets/ADU/logo.png') }}" alt="Campus">
     <div class="contact-info">
       <h3>Coordonnées</h3>
       <p><strong>Adresse :</strong> {{ $university->adresse }}</p>
@@ -274,6 +302,33 @@ document.querySelectorAll('.star').forEach(star => {
 
     });
 });
+document.addEventListener("DOMContentLoaded", function () {
+  const burger = document.querySelector(".burger");
+  const navLinks = document.querySelector(".nav-links");
+
+  if (burger && navLinks) {
+    burger.addEventListener("click", function () {
+      navLinks.classList.toggle("active");
+      burger.classList.toggle("active"); // pour animer la croix
+    });
+  }
+});
+ let lastScrollTop = 0;
+  const navbar = document.getElementById("navbar");
+
+  window.addEventListener("scroll", function () {
+    const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+
+    if (currentScroll > lastScrollTop) {
+      // Scroll vers le bas
+      navbar.classList.add("hidden");
+    } else {
+      // Scroll vers le haut
+      navbar.classList.remove("hidden");
+    }
+
+    lastScrollTop = currentScroll <= 0 ? 0 : currentScroll; // Correction pour éviter les valeurs négatives
+  });
 </script>
 
 </body>

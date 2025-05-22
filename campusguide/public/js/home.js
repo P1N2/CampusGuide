@@ -99,4 +99,19 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 });
+ let lastScrollTop = 0;
+  const navbar = document.getElementById("navbar");
 
+  window.addEventListener("scroll", function () {
+    const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+
+    if (currentScroll > lastScrollTop) {
+      // Scroll vers le bas
+      navbar.classList.add("hidden");
+    } else {
+      // Scroll vers le haut
+      navbar.classList.remove("hidden");
+    }
+
+    lastScrollTop = currentScroll <= 0 ? 0 : currentScroll; // Correction pour éviter les valeurs négatives
+  });

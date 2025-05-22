@@ -13,6 +13,7 @@
     <aside class="sidebar">
       <h2>Admin</h2>
       <ul>
+        <li><a href="{{ route('home') }}"><i class="fas fa-home"></i> Retour à l’accueil</a></li>
         <li><a href="#" class="menu-link active" data-section="stats"><i class="fas fa-chart-bar"></i> Dashboard</a></li>
         <li><a href="#" class="menu-link" data-section="add"><i class="fas fa-university"></i> Ajouter Université</a></li>
         <li><a href="#" class="menu-link" data-section="manage"><i class="fas fa-cogs"></i> Gérer les Filières</a></li>

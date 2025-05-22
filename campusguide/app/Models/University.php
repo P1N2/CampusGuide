@@ -35,6 +35,10 @@ public function galleryImages()
 {
     return $this->images()->where('type', 'gallery');
 }
+public function logo()
+{
+    return $this->hasOne(UniversityImage::class)->where('type', 'logo');
+}
 public function fields()
 {
     return $this->belongsToMany(Field::class, 'propose');
