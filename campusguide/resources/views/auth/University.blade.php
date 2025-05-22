@@ -328,7 +328,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     lastScrollTop = currentScroll <= 0 ? 0 : currentScroll; // Correction pour éviter les valeurs négatives
-  });
+  }); 
 </script>
 
 </body>

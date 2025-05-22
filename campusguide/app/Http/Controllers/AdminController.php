@@ -62,40 +62,58 @@ public function storeField(Request $request)
 
 public function storeUniversity(Request $request)
 {
-    $validated = $request->validate([
-        'name' => 'required|string',
-    'description' => 'nullable|string',
-    'history' => 'nullable|string',
-    'location' => 'nullable|string',
-    'tuition_fee' => 'nullable|numeric|between:0,99999999.99',   // CHANGÉ ici
-    'note' => 'nullable|numeric',         // CHANGÉ ici
-    'media_url' => 'nullable|string',
-    'application_link' => 'nullable|url',
-    'pdf_url' => 'nullable|file|mimes:pdf',
-    ]);
+    try {
+        $validated = $request->validate([
+            'name' => 'required|string',
+            'description' => 'nullable|string',
+            'history' => 'nullable|string',
+            'location' => 'nullable|string',
+            'tuition_fee' => 'nullable|numeric|between:0,99999999.99',
+            'note' => 'nullable|numeric|min:0|max:10',
+            'media_url' => 'nullable|string',
+            'application_link' => 'nullable|url',
+            'pdf_url' => 'nullable|url|ends_with:.pdf',
+            'slogan' => 'nullable|string|max:255',
+            'adresse' => 'nullable|string|max:255',
+            'telephone' => 'nullable|string|max:30',
+            'email' => 'nullable|email|max:100',
+            'fields' => 'nullable|array',
+            'fields.*' => 'integer|exists:fields,id',
+        ]);
 
-    if ($request->hasFile('pdf_url')) {
-        $validated['pdf_url'] = $request->file('pdf_url')->store('pdfs', 'public');
-    }
+        $university = University::create($validated);
 
-    $university = University::create($validated);
-
-    if ($request->hasFile('images')) {
-        foreach ($request->file('images') as $image) {
-            $path = $image->store('universities', 'public');
-            $university->images()->create([
-                'url' => $path,
-                'type' => $request->image_type,
-            ]);
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $path = $image->store('universities', 'public');
+                $university->images()->create([
+                    'url' => $path,
+                    'type' => $request->image_type,
+                ]);
+            }
         }
-    }
 
-    if ($request->fields) {
-        $university->fields()->sync($request->fields);
-    }
+        if ($request->fields) {
+            $university->fields()->sync($request->fields);
+        }
 
-    return redirect()->route('admin.dashboard')->with('good', 'Université ajoutée avec succès !');
+        return redirect()->route('admin.dashboard')->with('good', 'Université ajoutée avec succès !');
+    
+    } catch (\Illuminate\Validation\ValidationException $e) {
+        // Retourner avec les erreurs de validation + les anciennes valeurs du formulaire
+        return back()
+            ->withErrors($e->validator)
+            ->withInput()
+            ->with('error', 'Erreur de validation. Vérifie les champs du formulaire.');
+    
+    } catch (\Throwable $e) {
+        // Pour toute autre erreur non liée à la validation
+        return back()
+            ->withInput()
+            ->with('error', 'Erreur inattendue : ' . $e->getMessage());
+    }
 }
+
 // Changer le rôle de l'utilisateur
 public function toggleRole($id)
 {

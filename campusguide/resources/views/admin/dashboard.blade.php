@@ -130,17 +130,39 @@
       <!-- Formulaire d'ajout d'université -->
       <section id="add" class="content-section" style="display:none;">
         <h1>Ajouter une Université</h1>
-        @if(session('good'))
-              <div style="background-color: #d4edda; color: #155724; padding: 10px; border-radius: 5px; margin-bottom: 15px;">
-                  {{ session('good') }}
-              </div>
-       @endif
+        @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul class="list-disc pl-4 text-red-600">
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
+@if (session('error'))
+    <div class="alert alert-danger text-red-600">
+        {{ session('error') }}
+    </div>
+@endif
+
+@if (session('good'))
+    <div class="alert alert-success text-green-600">
+        {{ session('good') }}
+    </div>
+@endif
+
         <form action="{{ route('admin.university.store') }}" method="POST" enctype="multipart/form-data">
           @csrf
 
           <div class="form-group">
             <label>Nom de l’université</label>
             <input type="text" name="name" required>
+          </div>
+
+          <div class="form-group">
+            <label>Slogan</label>
+            <textarea name="slogan" rows="3"></textarea>
           </div>
 
           <div class="form-group">
@@ -179,7 +201,7 @@
           </div>
           <div class="form-group">
             <label>Brochure (PDF)</label>
-            <input type="url" name="pdf_url" accept="application/pdf">
+            <input type="url" name="pdf_url" id="pdf_url" placeholder="https://..." pattern="https://.*\.pdf">
           </div>
             <div class="form-group">
                 <label for="adresse">Adresse</label>

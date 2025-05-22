@@ -10,17 +10,20 @@ class University extends Model
     protected $table = 'universities'; // Le nom exact de ta table
 
     protected $fillable = [
-        'name',
-        'description',
-        'history',
-        'location',
-        'tuition_fee',
-        'note',
-        'media_url',
-        'application_link',
-        'pdf_url',
-        'slogan',
-    ];
+    'name',
+    'description',
+    'history',
+    'location',
+    'tuition_fee',
+    'note',
+    'media_url',
+    'application_link',
+    'pdf_url',
+    'slogan',
+    'adresse',
+    'telephone',
+    'email',
+];
     public function images()
 {
     return $this->hasMany(UniversityImage::class);
@@ -51,8 +54,4 @@ public function avis()
 {
     return $this->hasMany(Avis::class);
 }
-// public function users()
-// {
-//     return $this->belongsToMany(User::class, 'favorites', 'university_id', 'user_id');
-// }
 }

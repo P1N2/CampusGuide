@@ -191,10 +191,11 @@
   <div class="ranking-list">
     @foreach($universities as $index => $university)
       <a href="{{ route('university.show', $university->id) }}" class="university-item">
-        <div class="rank-number">#{{ $index + 1 }}</div>
+        <div class="rank-number">{{ $index + 1 }}.</div>
         <div class="university-details">
           <div class="university-name">
             <img  src="{{ asset(optional($university->logo)->image_path ?? 'assets/login.jpg') }}"  alt="Logo {{ $university->name }}"class="university-logo">
+             {{$university->name}}
           </div>
           <div class="university-slogan">
             {{ $university->slogan ?? 'Excellence, Innovation, Réussite' }}

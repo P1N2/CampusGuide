@@ -51,7 +51,7 @@ class UniversityController extends Controller
         'note' => 'nullable|numeric|min:0|max:5',
         'media_url' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         'application_link' => 'nullable|url',
-        'pdf_url' => 'nullable|url', // 🔁 ici c’est maintenant une URL et plus un fichier
+        'pdf_url' => 'nullable|url',
     ]);
 
     $university = new University();

@@ -13,7 +13,7 @@
 
     header {
       text-align: center;
-      background-color: #4a90e2;
+      background-color: #36384E;
       color: white;
       padding: 40px 20px;
       font-size: 24px;
@@ -49,6 +49,7 @@
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
       border-radius: 10px;
       overflow: hidden;
+      text-decoration: none;
     }
 
     .university-card:hover {
@@ -73,7 +74,7 @@
       text-align: center;
       margin-top: 50px;
       padding: 10px 20px;
-      background-color: #4a90e2;
+      background-color: #36384E;
       color: white;
       text-decoration: none;
       border-radius: 8px;
@@ -83,37 +84,8 @@
     }
 
     .back-button:hover {
-      background-color: #357ABD;
+      background-color: #E5B300;
     }
-
-    @media (prefers-color-scheme: dark) {
-      body {
-        background: #121212;
-        color: #eee;
-      }
-
-      .university-card {
-        background: #1e1e1e;
-        box-shadow: 0 4px 12px rgba(255, 255, 255, 0.05);
-      }
-
-      .university-card h4 {
-        color: #fff;
-      }
-
-      .back-button {
-        background-color: #444;
-      }
-
-      .back-button:hover {
-        background-color: #666;
-      }
-
-      header {
-        background-color: #222;
-      }
-    }
-
     @media (max-width: 600px) {
       .university-card {
         width: 90%;

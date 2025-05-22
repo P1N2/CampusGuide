@@ -168,14 +168,17 @@
 }
   /* Hero Section */
   .hero {
-    background: url('../assets/uni1.jpg') center/cover no-repeat;
-    height: 500px;
-    background-attachment: fixed;
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+  background-image: url('../assets/uni1.jpg');
+  background-size: cover;             /* équivalent à object-fit: cover */
+  background-position: center top;    /* équivalent à object-position: center top */
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  height: 600px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
   .subtitle{
     color: white;
   }
@@ -217,9 +220,11 @@
   }
   /* Bloc de recherche rapide */
 .quick-search {
-  background: url('../assets/search.jpg') center/cover ;
+  background-image: url('../assets/search.jpg') ;
   padding: 60px 20px;
-  background-position: center;
+  background-size: cover;             
+  background-position: center top;  
+  background-repeat: no-repeat;
   background-attachment: fixed;
   display: flex;
   justify-content: center;

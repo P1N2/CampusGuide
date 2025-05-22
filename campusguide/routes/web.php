@@ -42,10 +42,6 @@ Route::middleware(['auth'])->group(function () {
         return view('auth.field');
     });
 
-    // Route::get('/student', function () {
-    //     return view('auth.student');
-    // });
-
     Route::get('/dashboard', function () {
         return view('auth.dashboard');
     });
