@@ -123,14 +123,19 @@
 
     <div class="field-carousel" id="fieldCarousel">
       @forelse($fields as $field)
-        <div class="field-card">
-          <img src="{{ asset($field->image) }}" alt="{{ $field->name }}">
+      <div class="field-card">
+        <img src="{{ asset($field->image) }}" alt="{{ $field->name }}">
           <h4>{{ $field->name }}</h4>
-          <p>{{ $field->description }}</p>
+            <p>{{ $field->description }}</p>
+
+            <p class="tuition-fee">
+              <strong>Frais de scolarité :</strong>
+              {{ number_format($field->pivot->tuition_fee ?? $university->tuition_fee, 0, ',', ' ') }} FCFA
+            </p>
         </div>
-      @empty
-        <p>Aucune filière disponible pour cette université.</p>
-      @endforelse
+        @empty
+          <p>Aucune filière disponible pour cette université.</p>
+        @endforelse
     </div>
 
     <button class="carousel-btn right" id="nextBtn"><i class="fas fa-chevron-right"></i></button>
@@ -162,14 +167,6 @@
   <h2>Informations complémentaires</h2>
   <ul class="info-list">
 
-    <!-- @if($university->history)
-    <li>
-      <i class="fas fa-landmark"></i>
-      <strong>Historique :</strong>
-      <p>{{ $university->history }}</p>
-    </li>
-    @endif -->
-
     @if($university->location)
     <li>
       <i class="fas fa-map-marker-alt"></i>
@@ -179,12 +176,18 @@
     @endif
 
     @if($university->tuition_fee)
-    <li class="glow-effect">
-      <i class="fas fa-money-bill-wave"></i>
-      <strong>Frais de scolarité :</strong>
-      <span>{{ number_format($university->tuition_fee, 0, ',', ' ') }} FCFA</span>
-    </li>
-    @endif
+  <li class="glow-effect">
+    <i class="fas fa-money-bill-wave"></i>
+    <strong>Frais de scolarité :</strong>
+    <span>{{ number_format($university->tuition_fee, 0, ',', ' ') }} FCFA (frais standard pour toutes les filières)</span>
+  </li>
+@else
+  <li class="glow-effect">
+    <i class="fas fa-money-bill-wave"></i>
+    <strong>Frais de scolarité :</strong>
+    <span>Les frais varient selon la filière. Consultez les frais indiqués pour chaque filière ci-dessus.</span>
+  </li>
+@endif
 
     @if($university->note)
     <li>
@@ -198,15 +201,6 @@
       </span>
     </li>
     @endif
-
-    <!-- @if($university->media_url)
-    <li>
-      <i class="fas fa-video"></i>
-      <strong>Vidéo de présentation :</strong>
-      <a href="{{ $university->media_url }}" target="_blank">Voir la vidéo</a>
-    </li>
-    @endif -->
-
     @if($university->application_link)
     <li>
       <i class="fas fa-external-link-alt"></i>

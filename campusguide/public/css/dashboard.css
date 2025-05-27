@@ -130,6 +130,50 @@ body {
   border: 1px solid #ccc;
   border-radius: 5px;
 }
+.filiere-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background-color: #f5faff;
+  padding: 16px;
+  border-radius: 8px;
+  border: 1px solid #d0e6f9;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.03);
+}
+
+.filiere-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  background-color: #ffffff;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid #e0e0e0;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.filiere-row:hover {
+  background-color: #f0faff;
+}
+
+.filiere-row input[type="checkbox"] {
+  transform: scale(1.1);
+  cursor: pointer;
+}
+
+.filiere-row span {
+  font-weight: 500;
+  font-size: 16px;
+}
+
+.filiere-row input[type="number"] {
+  width: 160px;
+  padding: 6px 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
 .user-table {
   width: 100%;
   border-collapse: collapse;

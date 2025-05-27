@@ -219,23 +219,25 @@
                 <label for="email">Email</label>
                 <input type="email" name="email" class="form-control" value="{{ old('email') }}">
             </div>
+
+            
           <div class="form-group">
-              <label>Filières proposées</label>
-              <div style="display: flex; flex-wrap: wrap; gap: 10px;">
-                @foreach($fields as $field)
-                  <label  class="flex-wrapper">
-                    <input type="checkbox" name="fields[]" value="{{ $field->id }}" style="margin-right: 5px;">
-                    {{ $field->name }}
-                  </label>
-                @endforeach
+          <label>Filières proposées et frais associés (laisser vide si variable)</label>
+          <div class="filiere-wrapper">
+            @foreach($fields as $field)
+              <div class="filiere-row">
+                <input type="checkbox" name="fields[{{ $field->id }}][selected]" value="1">
+                <span>{{ $field->name }}</span>
+                <input type="number" name="fields[{{ $field->id }}][fee]" placeholder="Frais FCFA">
               </div>
-            </div>
+            @endforeach
+          </div>
+        </div>
           <button type="submit" class="submit-btn">Enregistrer</button>
         </form>
       </section>
 
-      <!-- Gérer les filières (pour plus tard) -->
-      <!-- Gérer les filières -->
+  
 <section id="manage" class="content-section" style="display:none;">
   <h1>Ajouter une Filière</h1>
 

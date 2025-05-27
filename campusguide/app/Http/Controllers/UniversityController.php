@@ -52,6 +52,7 @@ class UniversityController extends Controller
         'media_url' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         'application_link' => 'nullable|url',
         'pdf_url' => 'nullable|url',
+        'fields' => 'nullable|array', // Ajouté
     ]);
 
     $university = new University();
@@ -74,6 +75,17 @@ class UniversityController extends Controller
     $university->pdf_url = $request->pdf_url; // 🔁 juste l’URL, pas de stockage
 
     $university->save();
+
+    // Liaison des filières avec frais via table pivot
+if ($request->has('fields')) {
+    foreach ($request->fields as $fieldId => $fieldData) {
+        if (isset($fieldData['selected'])) {
+            $fee = isset($fieldData['fee']) && is_numeric($fieldData['fee']) ? $fieldData['fee'] : null;
+            $university->fields()->attach($fieldId, ['fee' => $fee]);
+        }
+    }
+}
+
 
     return redirect()->route('universities.index')->with('success', 'Université ajoutée avec succès.');
 }

@@ -44,7 +44,8 @@ public function logo()
 }
 public function fields()
 {
-    return $this->belongsToMany(Field::class, 'propose');
+    return $this->belongsToMany(Field::class, 'propose')
+            ->withPivot('tuition_fee');
 }
 public function favorites()
 {
@@ -54,4 +55,5 @@ public function avis()
 {
     return $this->hasMany(Avis::class);
 }
+
 }

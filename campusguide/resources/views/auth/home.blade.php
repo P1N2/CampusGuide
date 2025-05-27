@@ -208,17 +208,12 @@
       <a href="/home">Accueil</a>
       <a href="{{ route('universities.search') }}">Universités</a>
       <a href="{{ route('fields.search') }}">Filières</a>
-      <a href="#">Contact</a>
     </div>
 
     <div class="footer-social">
-      <h4>Suivez-nous</h4>
-      <div class="social-icons">
-        <a href="#"><i class="fab fa-facebook-f"></i></a>
-        <a href="#"><i class="fab fa-twitter"></i></a>
-        <a href="#"><i class="fab fa-instagram"></i></a>
-        <a href="#"><i class="fab fa-linkedin-in"></i></a>
-      </div>
+      <h4>Contactez-Nous</h4>
+      <p><i class="fas fa-envelope"></i> <a href="mailto:aogapenouel@gmail.com">aogapenouel@gmail.com</a></p>
+      <p><i class="fas fa-phone"></i> <a href="tel:+22793843135">+227 74 25 72 86</a></p>
     </div>
   </div>
 

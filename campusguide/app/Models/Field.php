@@ -10,6 +10,7 @@ class Field extends Model
 
     public function universities()
     {
-        return $this->belongsToMany(University::class, 'propose');
+        return $this->belongsToMany(University::class, 'propose')
+            ->withPivot('tuition_fee');
     }
 }
