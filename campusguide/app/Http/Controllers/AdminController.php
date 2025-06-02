@@ -78,7 +78,9 @@ public function storeUniversity(Request $request)
             'telephone' => 'nullable|string|max:30',
             'email' => 'nullable|email|max:100',
             'fields' => 'nullable|array',
-            'fields.*' => 'integer|exists:fields,id',
+            'fields.*.selected' => 'nullable|boolean',
+            'fields.*.fee' => 'nullable|integer|min:0',
+
         ]);
 
         $university = University::create($validated);
@@ -94,8 +96,17 @@ public function storeUniversity(Request $request)
         }
 
         if ($request->fields) {
-            $university->fields()->sync($request->fields);
-        }
+    $selectedFields = collect($request->fields)
+        ->filter(fn($item) => isset($item['selected']) && $item['selected']);
+
+    $attachData = [];
+    foreach ($selectedFields as $fieldId => $data) {
+        $fee = $data['fee'] ?? null;
+        $attachData[$fieldId] = ['tuition_fee'  => $fee];
+    }
+
+    $university->fields()->attach($attachData);
+}
 
         return redirect()->route('admin.dashboard')->with('good', 'Université ajoutée avec succès !');
     

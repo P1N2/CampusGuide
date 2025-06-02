@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Admin Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="icon" type="image/png" href="{{ asset('assets/favicon1.png') }}">
@@ -221,18 +222,18 @@
             </div>
 
             
-          <div class="form-group">
-          <label>Filières proposées et frais associés (laisser vide si variable)</label>
-          <div class="filiere-wrapper">
-            @foreach($fields as $field)
-              <div class="filiere-row">
-                <input type="checkbox" name="fields[{{ $field->id }}][selected]" value="1">
-                <span>{{ $field->name }}</span>
-                <input type="number" name="fields[{{ $field->id }}][fee]" placeholder="Frais FCFA">
+                      <div class="filiere-group">
+              <label>Filières proposées et frais associés (laisser vide si variable)</label>
+              <div class="filiere-wrapper">
+                @foreach($fields as $field)
+                  <div class="filiere-row">
+                    <input type="checkbox" name="fields[{{ $field->id }}][selected]" value="1">
+                    <span>{{ $field->name }}</span>
+                    <input type="number" name="fields[{{ $field->id }}][fee]" placeholder="Frais FCFA">
+                  </div>
+                @endforeach
               </div>
-            @endforeach
-          </div>
-        </div>
+            </div>
           <button type="submit" class="submit-btn">Enregistrer</button>
         </form>
       </section>

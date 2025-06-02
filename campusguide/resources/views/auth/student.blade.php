@@ -16,7 +16,6 @@
       <ul>
         <li><a href="#" class="menu-link active" data-section="home"><i class="fas fa-home"></i> Accueil</a></li>
         <li><a href="#" class="menu-link" data-section="favorites"><i class="fas fa-star"></i> Mes favoris</a></li>
-        <!-- <li><a href="#" class="menu-link" data-section="history"><i class="fas fa-history"></i> Historique</a></li> -->
         <li><a href="#" class="menu-link" data-section="profile"><i class="fas fa-user"></i> Profil</a></li>
         <li><a href="{{ route('home') }}"><i class="fas fa-arrow-left"></i> Retour à l’accueil</a></li>
           <li>
@@ -33,7 +32,7 @@
     <!-- Main content -->
     <main class="main-content">
       <section id="home" class="content-section">
-    <h1>Bienvenue {{ Auth::user()->name }} 👋</h1>
+    <h1>Bienvenue {{ Auth::user()->name }} <i class="fas fa-hand"></i> </h1>
     <p>Heureux de te revoir sur CampusGuide. Explore, découvre et construis ton avenir !</p>
 
     <!-- Carte de stats -->
@@ -68,7 +67,7 @@
 
 
     <section id="favorites" class="content-section" style="display: none;">
-  <h1 style="text-align: center; font-size: 2rem; margin-bottom: 1.5rem;">🎓 Mes Universités Favorites</h1>
+  <h1 style="text-align: center; font-size: 2rem; margin-bottom: 1.5rem;"><i class="fas fa-heart"></i>  Mes Universités Favorites</h1>
 
   @if ($favorites->isEmpty())
     <p style="text-align: center; font-size: 1.1rem; color: gray;">Tu n'as pas encore ajouté d'université en favori.</p>
@@ -97,12 +96,6 @@
     </div>
   @endif
 </section>
-
-      <!-- Onglets non encore implémentés
-      <section id="history" class="content-section" style="display: none;">
-        <h1>Historique de recherche</h1>
-        <p><em>À venir...</em></p>
-      </section> -->
 
     <section id="profile" class="content-section" style="display: none;">
   <div class="logo">
@@ -153,11 +146,6 @@
   </form>
 </section>
 
-
-      <!-- <section id="settings" class="content-section" style="display: none;">
-        <h1>Paramètres</h1>
-        <p><em>À venir...</em></p>
-      </section> -->
     </main>
   </div>
 

@@ -96,13 +96,13 @@
     <div class="card" onclick="window.location.href='{{ route('universities.search') }}'">
       <div class="icon"><i class="fa-solid fa-magnifying-glass"></i></div>
       <h3>Trouver une université</h3>
-      <p>Search by subject, course or region to find the right course for you.</p>
+      <p>Explorez les établissements et découvrez celui qui correspond à votre avenir académique.</p>
     </div>
 
     <div class="card" onclick="window.location.href='{{ route('fields.search') }}'">
       <div class="icon"><i class="fa-solid fa-book-open"></i></div>
       <h3>Chercher une Filière</h3>
-      <p>Search for universities to find out about courses and more.</p>
+        <p>Identifiez la filière idéale selon vos intérêts et explorez les options disponibles.</p>
     </div>
 
     <a href="{{ route('universities.ranking') }}" class="card" style="text-decoration: none; color: inherit;">
@@ -165,7 +165,6 @@
           }}" class="field-card">
         <img src="{{ asset($field->image) }}" alt="{{ $field->name }}">
         <h4>{{ $field->name }}</h4>
-        <!-- <span>SEE COURSE GUIDE &rarr;</span> -->
       </a>
     @endforeach
   </div>

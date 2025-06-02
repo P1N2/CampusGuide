@@ -237,7 +237,7 @@
 <!-- Coordonnées + Contact -->
 <section class="contact-section">
   <div class="contact-container">
-    <img src="{{ asset('assets/ADU/logo.png') }}" alt="Campus">
+    <img src="{{ asset(optional($university->logo)->image_path ?? 'assets/login.jpg') }}"alt="Logo {{ $university->name }}" >
     <div class="contact-info">
       <h3>Coordonnées</h3>
       <p><strong>Adresse :</strong> {{ $university->adresse }}</p>
