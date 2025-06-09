@@ -8,6 +8,85 @@ body {
   display: flex;
   height: 100vh;
 }
+/* En-tête */
+.student-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Icône de cloche */
+.notification-wrapper {
+  position: relative;
+  cursor: pointer;
+}
+
+.notif-icon {
+  font-size: 1.5rem;
+}
+
+/* Dropdown notifications */
+.notif-dropdown {
+  position: absolute;
+  top: 35px;
+  right: 0;
+  background: white;
+  color: black;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  width: 300px;
+  max-height: 300px;
+  overflow-y: auto;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  display: none;
+  text-align: center;
+  z-index: 9999;
+}
+
+.notif-title {
+  padding: 10px;
+  font-weight: bold;
+  border-bottom: 1px solid #eee;
+}
+
+.no-notif {
+  text-align: center;
+  color: gray;
+  padding: 10px;
+  font-style: italic;
+}
+
+.notif-item {
+  border-bottom: 1px solid #eee;
+  padding: 8px 0;
+}
+
+.notif-item:last-child {
+  border-bottom: none;
+}
+
+.btn-see-more {
+  color: #007bff;
+  font-weight: bold;
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+
+/* Badge rouge */
+.notif-count {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background-color: #E5B300;
+  color: white;
+  border-radius: 50%;
+  font-size: 0.75rem;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
 .sidebar {
   width: 220px;

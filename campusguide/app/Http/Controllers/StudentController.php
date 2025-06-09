@@ -13,6 +13,9 @@ class StudentController extends Controller
 public function dashboard()
 {
     $user = Auth::user();
+      $user->update([
+        'last_visited_at' => now(),
+    ]);
 
     $favorites = $user->favorites()->with('university')->get();
 
@@ -59,4 +62,15 @@ public function dashboard()
 
         return redirect()->back()->with('success', 'Université retirée des favoris.');
     }
+    public function newUniversities()
+{
+    $user = Auth::user();
+
+    $newUniversities = University::where('created_at', '>', $user->last_visited_at)
+        ->orderBy('created_at', 'desc')
+        ->get();
+
+    return response()->json($newUniversities);
+}
+
 }

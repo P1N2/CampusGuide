@@ -13,6 +13,8 @@
     <!-- Sidebar -->
     <aside class="sidebar">
       <h2>Bienvenue {{ Auth::user()->name }}</h2>
+     
+
       <ul>
         <li><a href="#" class="menu-link active" data-section="home"><i class="fas fa-home"></i> Accueil</a></li>
         <li><a href="#" class="menu-link" data-section="favorites"><i class="fas fa-star"></i> Mes favoris</a></li>
@@ -32,9 +34,22 @@
     <!-- Main content -->
     <main class="main-content">
       <section id="home" class="content-section">
-    <h1>Bienvenue {{ Auth::user()->name }} <i class="fas fa-hand"></i> </h1>
-    <p>Heureux de te revoir sur CampusGuide. Explore, découvre et construis ton avenir !</p>
+   <div style="display: flex; justify-content: space-between; align-items: center;">
+  <h1 style="margin: 0;">Bienvenue {{ Auth::user()->name }} <i class="fas fa-hand"></i></h1>
+  <div class="notification-wrapper" id="notificationIcon">
+    <i class="fas fa-bell notif-icon"></i>
 
+    <div id="notifDropdown" class="notif-dropdown">
+      <div class="notif-title">Nouvelles universités</div>
+      <div id="notifContent" class="notif-content">
+      <p class="no-notif">Chargement...</p>
+      </div>
+    </div>
+
+    <span id="notifCount" class="notif-count">0</span>
+  </div>
+</div>
+<p>Heureux de te revoir sur CampusGuide. Explore, découvre et construis ton avenir !</p>
     <!-- Carte de stats -->
     <div class="stat-card-container">
         <div class="stat-card">
@@ -168,6 +183,60 @@
         });
       });
     });
+    document.addEventListener('DOMContentLoaded', function () {
+    fetch('/student/new-universities') // Tu peux aussi utiliser une route nommée
+      .then(response => response.json())
+      .then(data => {
+        const count = data.length;
+        if (count > 0) {
+          const badge = document.getElementById('notifCount');
+          badge.innerText = count;
+          badge.style.display = 'flex';
+        }
+      });
+  });
+  const notifIcon = document.getElementById('notificationIcon');
+const notifDropdown = document.getElementById('notifDropdown');
+const notifContent = document.getElementById('notifContent');
+const universityShowBase = "{{ url('universities') }}/";
+notifIcon.addEventListener('click', function () {
+  // Toggle dropdown visibility
+  const isVisible = notifDropdown.style.display === 'block';
+  notifDropdown.style.display = isVisible ? 'none' : 'block';
+
+  if (!isVisible && notifContent.dataset.loaded !== 'true') {
+    // Affichage de chargement
+    notifContent.innerHTML = '<p class="no-notif">Chargement...</p>';
+
+    fetch('/student/new-universities')
+      .then(response => response.json())
+      .then(data => {
+        if (data.length === 0) {
+          notifContent.innerHTML = '<p class="no-notif">Aucune nouveauté.</p>';
+        } else {
+          notifContent.innerHTML = data.map(u => `
+            <div class="notif-item">
+              <strong>${u.name}</strong><br>
+              <small>${u.description}</small><br>
+              <a href="${universityShowBase}${u.id}" class="btn-see-more">Voir</a>
+            </div>
+          `).join('');
+        }
+
+        notifContent.dataset.loaded = 'true'; // Évite de recharger à chaque clic
+      })
+      .catch(() => {
+        notifContent.innerHTML = '<p class="no-notif">Erreur lors du chargement.</p>';
+      });
+  }
+});
+
+// Fermer le dropdown si on clique ailleurs
+document.addEventListener('click', function (e) {
+  if (!notifIcon.contains(e.target) && !notifDropdown.contains(e.target)) {
+    notifDropdown.style.display = 'none';
+  }
+});
   </script>
 </body>
 </html>

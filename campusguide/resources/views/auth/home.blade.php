@@ -44,6 +44,18 @@
   @endauth
   <div class="navbar-right">
   @auth
+    <div class="notif-wrapper">
+  <div class="notification-icon" id="notificationIcon">
+    <i class="fa-solid fa-bell"></i>
+    <span id="notifCount" class="notif-count" style="display: none;">0</span>
+  </div>
+
+  <div class="notif-dropdown" id="notifDropdown" style="display: none;">
+    <div class="notif-content" id="notifContent" data-loaded="false">
+      <p class="no-notif">Chargement...</p>
+    </div>
+  </div>
+</div>
     <div class="profile" id="profile">
       <img src="{{ Auth::user()->profile_image ? asset('storage/' . Auth::user()->profile_image) : asset('assets/login.jpg') }}" alt="Profil">
       <span class="profile-text">
@@ -221,6 +233,65 @@
 <script src="{{ asset('js/home.js') }}" defer></script>
 <script>
   window.isAuthenticated = {{ Auth::check() ? 'true' : 'false' }};
+  document.addEventListener('DOMContentLoaded', function () {
+  // Charger le nombre de nouvelles universités
+  fetch('/student/new-universities')
+    .then(response => response.json())
+    .then(data => {
+      const count = data.length;
+      const badge = document.getElementById('notifCount');
+      if (count > 0) {
+        badge.textContent = count;
+        badge.style.display = 'inline-block';
+      } else {
+        badge.textContent = '0';
+        badge.style.display = 'inline-block';
+      }
+    });
+
+  // Dropdown logic
+  const notifIcon = document.getElementById('notificationIcon');
+  const notifDropdown = document.getElementById('notifDropdown');
+  const notifContent = document.getElementById('notifContent');
+
+  notifIcon.addEventListener('click', function () {
+    const isVisible = notifDropdown.style.display === 'block';
+    notifDropdown.style.display = isVisible ? 'none' : 'block';
+
+    if (!isVisible && notifContent.dataset.loaded !== 'true') {
+      notifContent.innerHTML = '<p class="no-notif">Chargement...</p>';
+
+      fetch('/student/new-universities')
+        .then(response => response.json())
+        .then(data => {
+          if (data.length === 0) {
+            notifContent.innerHTML = '<p class="no-notif">Aucune nouveauté.</p>';
+          } else {
+            notifContent.innerHTML = data.map(u => `
+              <div class="notif-item">
+                <strong>${u.name}</strong>
+                <small>Ajoutée le ${new Date(u.created_at).toLocaleDateString()}</small><br>
+                <a href="/university/${u.id}" class="btn-see-more">Voir</a>
+              </div>
+            `).join('');
+          }
+
+          notifContent.dataset.loaded = 'true';
+        })
+        .catch(() => {
+          notifContent.innerHTML = '<p class="no-notif">Erreur lors du chargement.</p>';
+        });
+    }
+  });
+
+  document.addEventListener('click', function (e) {
+    const icon = document.getElementById('notificationIcon');
+    const dropdown = document.getElementById('notifDropdown');
+    if (!icon.contains(e.target) && !dropdown.contains(e.target)) {
+      dropdown.style.display = 'none';
+    }
+  });
+});
 </script>
 
 </body>

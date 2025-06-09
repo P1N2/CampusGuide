@@ -16,12 +16,18 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 
-// Page d'accueil pour les invités
-// Page d'accueil (affiche les universités uniquement si l'utilisateur est connecté)
-Route::get('/', [UniversityController::class, 'index'])->name('home');
+
+Route::get('/splash', function () {
+    return view('auth.splash');
+})->name('splash');
+
+
+Route::get('/', function () {
+    return redirect()->route('splash');
+});
 Route::post('/logout', function () {
     Auth::logout();
-    return redirect('/'); // Redirection vers la page d’accueil en mode invité
+    return redirect('/'); 
 })->name('logout');
 
 // Routes d'authentification
@@ -29,11 +35,9 @@ Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login'])->name('login.submit');
 Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
 Route::post('/register', [RegisterController::class, 'register'])->name('register.submit');
-
+Route::get('/home', [UniversityController::class, 'index'])->name('home');
 // Routes protégées (uniquement accessibles pour les utilisateurs connectés)
 Route::middleware(['auth'])->group(function () {
-    Route::get('/home', [UniversityController::class, 'index']);  // Cette route est protégée par auth
-
     Route::get('/University', function () {
         return view('auth.University');
     });
@@ -86,11 +90,10 @@ Route::post('/universities/{university}/rate', [UniversityController::class, 'ra
 Route::middleware(['auth'])->group(function (){
     Route::get('/ranking', [UniversityController::class, 'ranking'])->name('universities.ranking');
 });
-// Route::get('/auth/google/redirect', [SocialiteController::class, 'redirectToGoogle'])->name('auth.google');
-// Route::get('/auth/google/callback', [SocialiteController::class, 'handleGoogleCallback']);
+Route::middleware(['auth'])->get('/student/new-universities', [StudentController::class, 'newUniversities']);
+
 
 Route::get('/password/reset', function () {
-    // Formulaire pour saisir l'email
     return view('auth.passwords.email');
 })->name('password.request');
 
@@ -102,8 +105,6 @@ Route::post('/password/reset', function (Request $request) {
 })->name('password.email');
 
 Route::get('/password/change', function (Request $request) {
-    // Formulaire pour changer le mot de passe
-    // On récupère l'email passé en paramètre
     $email = $request->query('email');
     return view('auth.passwords.reset', ['email' => $email]);
 })->name('password.change');

@@ -27,6 +27,7 @@ class User extends Authenticatable
         'bac_type',
         'favorite_subject',
         'interest_area',
+        'last_visited_at', 
     ];
 
     /**
@@ -46,6 +47,7 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'last_visited_at' => 'datetime',
     ];
  public function favorites()
 {

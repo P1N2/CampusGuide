@@ -1,6 +1,4 @@
--- Base de données CampusGuide
 
--- ✅ Suppression des tables si elles existent déjà (ordre inverse à la création à cause des clés étrangères)
 DROP TABLE IF EXISTS favorites;
 DROP TABLE IF EXISTS avis;
 DROP TABLE IF EXISTS search_history;
@@ -10,7 +8,7 @@ DROP TABLE IF EXISTS fields;
 DROP TABLE IF EXISTS universities;
 DROP TABLE IF EXISTS users;
 
--- ✅ Table des utilisateurs
+
 CREATE TABLE users (
     id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(100),
@@ -20,7 +18,7 @@ CREATE TABLE users (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
--- ✅ Table des universités
+
 CREATE TABLE universities (
     id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(150),
@@ -36,7 +34,7 @@ CREATE TABLE universities (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
--- ✅ Table des domaines ou filières
+
 CREATE TABLE fields (
     id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(100),
@@ -45,7 +43,7 @@ CREATE TABLE fields (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
--- ✅ Table pivot : relation entre université et filière
+
 CREATE TABLE propose (
     university_id INT,
     field_id INT,
@@ -54,26 +52,26 @@ CREATE TABLE propose (
     FOREIGN KEY (field_id) REFERENCES fields(id) ON DELETE CASCADE
 );
 
--- ✅ Résultats du quiz
-CREATE TABLE quiz_results (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    user_id INT,
-    recommended_field TEXT,
-    recommended_university TEXT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
-);
 
--- ✅ Historique des recherches
-CREATE TABLE search_history (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    user_id INT,
-    rating INT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
-);
+-- CREATE TABLE quiz_results (
+--     id INT PRIMARY KEY AUTO_INCREMENT,
+--     user_id INT,
+--     recommended_field TEXT,
+--     recommended_university TEXT,
+--     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+--     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+-- );
 
--- ✅ Avis et notes laissés par les utilisateurs
+
+-- CREATE TABLE search_history (
+--     id INT PRIMARY KEY AUTO_INCREMENT,
+--     user_id INT,
+--     rating INT,
+--     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+--     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+-- );
+
+
 CREATE TABLE avis (
     id INT PRIMARY KEY AUTO_INCREMENT,
     user_id INT,
@@ -85,7 +83,7 @@ CREATE TABLE avis (
     FOREIGN KEY (university_id) REFERENCES universities(id) ON DELETE CASCADE
 );
 
--- ✅ Universités favorites des utilisateurs
+
 CREATE TABLE favorites (
     user_id INT,
     university_id INT,
